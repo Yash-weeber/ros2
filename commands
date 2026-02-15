@@ -1,0 +1,204 @@
+ colcon build --allow-overriding ur_description --packages-select ur_description
+
+source install/setup.bash
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/ros2_ws/install/ur_description/share
+ros2 launch ur_simulation_gz ur_sim_control.launch.py   ur_type:=ur5e   use_fake_hardware:=false   initial_joint_controller:=joint_trajectory_controller   description_file:=/home/yashrakesh/ros2_ws/src/ur_description/urdf/ur_table_assembly.urdf.xacro
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e
+ros2 launch ur_description cleaning_session.launch.py
+
+ros2 run xacro xacro ur_table_assembly.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur_table_assembly">
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_mop_standalone.urdf.xacro"/>
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+
+  <xacro:ur_robot
+    name="ur_2"
+    tf_prefix="ur_2_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    >
+    <origin xyz="0.0 1.0 1.0" rpy="0 0 ${pi}" />
+  </xacro:ur_robot>
+
+  <link name="table_link">
+    <visual>
+      <origin xyz="1 0.6 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ur_description/meshes/test.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="table_material"><color rgba="0.6 0.4 0.2 1" /></material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="1.38 0.75 0.60" />
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="50" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="5" />
+    </inertial>
+  </link>
+
+  <joint name="world_to_table" type="fixed">
+    <parent link="world" />
+    <child link="table_link" />
+    <origin xyz="0.0 0.5 0.30" rpy="0 0 0" />
+  </joint>
+
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <joint name="shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="elbow_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_1_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_2_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_3_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="mop_socket_pitch"><state_interface name="position"/><state_interface name="velocity"/></joint>
+
+    <joint name="mop_socket_yaw"><state_interface name="position"/><state_interface name="velocity"/></joint>
+
+    <joint name="ur_2_shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_elbow_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_1_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_2_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_3_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find ur_description)/config/ur_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur_table_assembly">
+
+  <xacro:arg name="ur_type" default="ur5e"/>
+  <xacro:arg name="tf_prefix" default="" />
+
+  <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_params" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_params" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_params" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+
+  <xacro:arg name="safety_limits" default="false"/>
+  <xacro:arg name="safety_pos_margin" default="0.15"/>
+  <xacro:arg name="safety_k_position" default="20"/>
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:include filename="$(find ur_description)/urdf/inc/mop_tool.xacro"/>
+
+  <link name="world" />
+
+  <xacro:ur_robot
+    name="ur"
+    tf_prefix=""
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"
+    >
+    <origin xyz="0 -0.2 0.81" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:mop_tool prefix="" parent="tool0" />
+
+  <xacro:ur_robot
+    name="ur_2"
+    tf_prefix="ur_2_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"
+    >
+    <origin xyz="0.0 1.0 1.0" rpy="0 0 ${pi}" />
+  </xacro:ur_robot>
+
+  <link name="table_link">
+    <visual>
+      <origin xyz="1 0.6 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ur_description/meshes/test.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="table_material"><color rgba="0.6 0.4 0.2 1" /></material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="1.38 0.75 0.60" />
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="50" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="5" />
+    </inertial>
+  </link>
+
+  <joint name="world_to_table" type="fixed">
+    <parent link="world" />
+    <child link="table_link" />
+    <origin xyz="0.0 0.5 0.30" rpy="0 0 0" />
+  </joint>
+
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <joint name="shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="elbow_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_1_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_2_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="wrist_3_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+
+
+    <joint name="mop_socket_roll"><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="mop_socket_yaw"><state_interface name="position"/><state_interface name="velocity"/></joint>
+
+    <joint name="ur_2_shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_elbow_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_1_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_2_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_3_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find ur_description)/config/ur_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>

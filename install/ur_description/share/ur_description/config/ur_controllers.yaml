@@ -1,0 +1,94 @@
+#controller_manager:
+#  ros__parameters:
+#    update_rate: 100  # Hz
+#
+#    joint_state_broadcaster:
+#      type: joint_state_broadcaster/JointStateBroadcaster
+#
+#    joint_trajectory_controller:
+#      type: joint_trajectory_controller/JointTrajectoryController
+#
+#joint_trajectory_controller:
+#  ros__parameters:
+#    joints:
+#      - shoulder_pan_joint
+#      - shoulder_lift_joint
+#      - elbow_joint
+#      - wrist_1_joint
+#      - wrist_2_joint
+#      - wrist_3_joint
+#    command_interfaces:
+#      - position
+#    state_interfaces:
+#      - position
+#      - velocity
+#    state_publish_rate: 100.0
+#    action_monitor_rate: 20.0
+#    allow_partial_joints_goal: false
+#    constraints:
+#      stopped_velocity_tolerance: 0.2
+#      goal_time: 0.0
+#
+#------------------------------------------------------------------------------------------------------------------------------------------------
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Controller for Robot 1 (Standard Names)
+    ur_1_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # Controller for Robot 2 (Prefix: ur_2_)
+    ur_2_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# ----------------------------------------------------------------------
+# ROBOT 1 CONFIGURATION
+# ----------------------------------------------------------------------
+ur_1_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+
+# ----------------------------------------------------------------------
+# ROBOT 2 CONFIGURATION
+# ----------------------------------------------------------------------
+ur_2_controller:
+  ros__parameters:
+    joints:
+      - ur_2_shoulder_pan_joint
+      - ur_2_shoulder_lift_joint
+      - ur_2_elbow_joint
+      - ur_2_wrist_1_joint
+      - ur_2_wrist_2_joint
+      - ur_2_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0

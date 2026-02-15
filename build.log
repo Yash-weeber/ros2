@@ -1,0 +1,26 @@
+[0.133s] WARNING:colcon.colcon_core.package_selection:Some selected packages are already built in one or more underlay workspaces:
+	'trac_ik_lib' is in: /opt/ros/jazzy
+If a package in a merged underlay workspace is overridden and it installs headers, then all packages in the overlay must sort their include directories by workspace order. Failure to do so may result in build failures or undefined behavior at run time.
+If the overridden package is used by another package in any underlay, then the overriding package in the overlay must be API and ABI compatible or undefined behavior at run time may occur.
+
+If you understand the risks and want to override a package anyways, add the following to the command line:
+	--allow-overriding trac_ik_lib
+
+This may be promoted to an error in a future release of colcon-override-check.
+Starting >>> trac_ik_lib
+--- stderr: trac_ik_lib
+/home/yashrakesh/ros2_ws/src/trac_ik/trac_ik_lib/src/trac_ik.cpp:37:10: fatal error: urdf/model.hpp: No such file or directory
+   37 | #include <urdf/model.hpp>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+gmake[2]: *** [CMakeFiles/trac_ik.dir/build.make:104: CMakeFiles/trac_ik.dir/src/trac_ik.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/trac_ik.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2
+---
+Failed   <<< trac_ik_lib [1.95s, exited with code 2]
+
+Summary: 0 packages finished [2.05s]
+  1 package failed: trac_ik_lib
+  1 package had stderr output: trac_ik_lib
+  1 package not processed
