@@ -21,15 +21,33 @@ python3 finnal.py
 
 
 
-
 source install/setup.bash
-  ros2 run xacro xacro ur_table_assembly.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+export ROS_DOMAIN_ID=42
+ros2 control list_controllers
 
 
 
-
-  cd ~/ros2_ws
 colcon build --packages-select ur_description --allow-overriding ur_description
 source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur_table_assembly.urdf.xacro
 
-ros2 launch ur_description view_ur.launch.py     ur_type:=ur5e     description_file:=/home/yashrakesh/ros2_ws/src/ur_description/urdf/ur_table_assembly.urdf.xacro
+
+  ros2 run xacro xacro ur_table_assembly.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+  ros2 run xacro xacro ur_mop_standalone.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+
+
+colcon build --packages-select ur_description --allow-overriding ur_description
+source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur.urdf.xacro
+
+
+
+
+colcon build --packages-select ur_description --allow-overriding ur_description
+source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur_mop_standalone.urdf.xacro
+
+
+source /opt/ros/jazzy/setup.bash
+source ~/ros2_ws/install/setup.bash
+export ROS_DOMAIN_ID=42

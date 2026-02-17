@@ -73,7 +73,9 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     ur_description_path = get_package_share_directory('ur_description')
-    xacro_file = os.path.join(ur_description_path, 'urdf', 'ur_table_assembly.urdf.xacro')
+    # xacro_file = os.path.join(ur_description_path, 'urdf', 'ur_table_assembly.urdf.xacro')
+
+    xacro_file = os.path.join(ur_description_path, 'urdf', 'ur_mop_standalone.urdf.xacro')
 
     robot_description = {'robot_description': Command(['xacro ', xacro_file])}
 
