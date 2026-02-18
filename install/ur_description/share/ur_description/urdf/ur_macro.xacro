@@ -86,13 +86,13 @@
     <link name="${tf_prefix}base_link"/>
     <link name="${tf_prefix}base_link_inertia">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <xacro:get_mesh name="base" type="visual"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <xacro:get_mesh name="base" type="collision"/>
         </geometry>

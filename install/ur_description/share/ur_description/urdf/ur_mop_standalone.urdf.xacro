@@ -34,6 +34,20 @@
   </xacro:ur_robot>
 
   <xacro:mop_tool prefix="" parent="tool0" />
+    <xacro:ur_robot
+    name="ur_2"
+    tf_prefix="ur_2_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"
+    >
+    <origin xyz="0.0 1.1 1.0" rpy="0 0 ${pi}" />
+  </xacro:ur_robot>
 
   <ros2_control name="GazeboSimSystem" type="system">
     <hardware>
@@ -77,6 +91,14 @@
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
+
+    <joint name="ur_2_shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_elbow_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_1_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_2_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+    <joint name="ur_2_wrist_3_joint"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+
   </ros2_control>
 <link name="table_link">
     <visual>

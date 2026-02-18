@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+
+  <!-- robot name parameter -->
+  <xacro:arg name="name" default="ur"/>
+
+  <xacro:include filename="$(find ur_moveit_config)/srdf/ur_macro.srdf.xacro"/>
+  <disable_collisions link1="mop_handle" link2="mop_head" reason="Adjacent" />
+
+    <disable_collisions link1="mop_handle" link2="wrist_3_link" reason="Adjacent" />
+    <disable_collisions link1="mop_head" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="mop_head" link2="table_link" reason="Never" />
+
+  <xacro:ur_srdf/>
+
+</robot>

@@ -20,6 +20,11 @@ export ROS_DOMAIN_ID=42
 python3 finnal.py
 
 
+colcon build --packages-select ur_description --allow-overriding ur_description
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+python3 step1.py
+
 
 source install/setup.bash
 export ROS_DOMAIN_ID=42
@@ -51,3 +56,10 @@ ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:
 source /opt/ros/jazzy/setup.bash
 source ~/ros2_ws/install/setup.bash
 export ROS_DOMAIN_ID=42
+
+
+
+
+cd ~/ros2_ws
+colcon build --packages-select ur_moveit_config --allow-overriding ur_moveit_config
+source install/setup.bash

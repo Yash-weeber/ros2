@@ -838,7 +838,7 @@ class DualRobotRelay(Node):
             home_quat = perfect_pose.orientation
 
             # AUTOMATIC HOVER OFFSET: Lift the drawing 5cm above the home pose to guarantee table clearance
-            home_z = perfect_pose.position.z + 0.05
+            home_z = perfect_pose.position.z - 0.05
 
             self.get_logger().info(f"[{robot_name}] Sweeping Height Locked at -> Z:{home_z:.3f}")
 

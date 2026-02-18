@@ -5,6 +5,7 @@
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/config/ur5e/joint_limits.yaml
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/config/ur5e/physical_parameters.yaml
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/config/kinematics.yaml
+/home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/config/ur_table_assembly.srdf
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/launch/cleaning_session.launch.py
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/launch/view_ur.launch.py
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/rviz/view_robot.rviz
@@ -63,6 +64,8 @@
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/meshes/ur5e/visual/wrist3.dae
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/meshes/test.stl
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/data/motion.csv
+/home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/launch/cleaning_session.launch.py
+/home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/launch/view_ur.launch.py
 /home/yashrakesh/ros2_ws/install/ur_description/share/ament_index/resource_index/package_run_dependencies/ur_description
 /home/yashrakesh/ros2_ws/install/ur_description/share/ament_index/resource_index/parent_prefix_path/ur_description
 /home/yashrakesh/ros2_ws/install/ur_description/share/ur_description/environment/ament_prefix_path.sh

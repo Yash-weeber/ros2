@@ -22,5 +22,8 @@ install(DIRECTORY
   data
   DESTINATION share/${PROJECT_NAME}
 )
-
+# Add this near the bottom, before ament_package()
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
 ament_package()
