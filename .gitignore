@@ -3,4 +3,4 @@ install/*
 logs/*
 /build
 /install
-/logs
+/log
