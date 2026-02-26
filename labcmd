@@ -1,0 +1,17 @@
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+ros2 launch ur_moveit_config ur_moveit.launch.py \
+ur_type:=ur5 \
+launch_rviz:=true
+
+
+
+source install/setup.bash
+ros2 launch ur_robot_driver ur_control.launch.py \
+ur_type:=ur5 \
+robot_ip:=192.168.1.103 \
+launch_rviz:=true
+
+
+ros2 launch ur_robot_driver ur_control.launch.py     ur_type:=ur5     robot_ip:=192.168.1.103     use_fake_hardware:=false     launch_rviz:=true
+

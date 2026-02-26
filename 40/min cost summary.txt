@@ -1,0 +1,23 @@
+Minimum Cost Across Runs (per-run minima)
+Root: Y:\factorized\lab\Results\n_warmup-20\logs\num-optimizer-gridcov-20x20-totalcost-guided-stepsize-50-hist-30-walled-1-sinusoid-y
+Bounds: x∈[0.31000000000000005,1.01], y∈[-0.8500000000000001,0.45]
+
+=== A) Per-run minimum across ALL iterations ===
+run  min_cost  iter_at_min
+  2       204          -13
+  1       312          -19
+
+Summary (across runs):
+             mean_min_cost  std_min_cost  n_runs  min  max
+metric                                                    
+total_balls            258       76.3675       2  204  312
+
+=== B) Per-run minimum across VALID iterations only (EE trajectory in-bounds) ===
+run  min_cost_valid  iter_at_min_valid
+  2             288                -18
+  1             312                -19
+
+Summary (across runs, ignoring NaN runs):
+             mean_min_cost_valid  std_min_cost_valid  n_runs_with_valid  n_runs_total  min_valid  max_valid
+metric                                                                                                     
+total_balls                  300             16.9706                  2             2        288        312

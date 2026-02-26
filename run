@@ -1,0 +1,84 @@
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur_table_assembly.urdf.xacro
+
+ros2 launch ur_simulation_gz ur_sim_control.launch.py   ur_type:=ur5e   use_fake_hardware:=false   initial_joint_controller:=joint_trajectory_controller   description_file:=/home/yashrakesh/ros2_ws/src/ur_description/urdf/ur_table_assembly.urdf.xacro
+ros2 launch ur_robot_driver ur_control.launch.py \
+  ur_type:=ur5e \
+  robot_ip:=yyy.yyy.yyy.yyy \
+  use_fake_hardware:=true \
+  launch_rviz:=false
+
+    ros2 launch ur_description view_ur.launch.py urdf_file:=/tmp/test_robot.urdf ur_type:=ur5e
+
+  ros2 run xacro xacro ur_table_assembly.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+ros2 launch test cleaning_session.launch.py
+ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock
+
+
+
+
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="mop_tool" params="prefix parent">
+
+    <joint name="${prefix}mop_mount_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}mop_handle" />
+      <origin xyz="0.5 0.0 0.0" rpy="${pi/2} ${-pi/2} 0" />
+    </joint>
+
+    <link name="${prefix}mop_handle">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ur_description/meshes/mop_handle.obj" scale="0.002 0.002 0.002" />
+        </geometry>
+        <material name="mop_purple">
+          <color rgba="0.18 0.05 0.35 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ur_description/meshes/mop_handle.obj" scale="0.002 0.002 0.002" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}mop_head_joint" type="continuous">
+      <parent link="${prefix}mop_handle" />
+      <child link="${prefix}mop_head" />
+      <origin xyz="0 -0.05 -0.1" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.5" friction="0.01"/>
+    </joint>
+
+    <link name="${prefix}mop_head">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ur_description/meshes/mop_base.obj" scale="0.002 0.002 0.002" />
+        </geometry>
+        <material name="mop_dark_green">
+          <color rgba="0.05 0.35 0.15 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ur_description/meshes/mop_base.obj" scale="0.002 0.002 0.002" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.2" />
+        <origin xyz="0 -0.05 -0.1" rpy="0 0 0" />
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005" />
+      </inertial>
+    </link>
+
+  </xacro:macro>
+</robot>

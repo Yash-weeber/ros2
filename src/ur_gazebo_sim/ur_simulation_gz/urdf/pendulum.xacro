@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="pendulum_robot" params="
+    name
+    parent_link
+    base_length
+    base_radius
+    base_mass
+    base_pose
+    pendulum_length
+    pendulum_size_x
+    pendulum_size_y
+    pendulum_mass">
+
+    <!-- Split base_pose string into components -->
+    <xacro:property name="base_pose_split" value="${base_pose.split(' ')}"/>
+
+    <!-- Pendulum base link -->
+    <link name="${name}_pendulum_base_link">
+      <visual>
+        <geometry>
+          <cylinder length="${base_length}" radius="${base_radius}" />
+        </geometry>
+        <origin xyz="0 0 ${base_length/2}" rpy="0 0 0"/>
+        <material name="base_color">
+          <color rgba="0.2 0.2 0.8 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="${base_length}" radius="${base_radius}" />
+        </geometry>
+        <origin xyz="0 0 ${base_length/2}" rpy="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="${base_mass}" />
+        <origin xyz="0 0 ${base_length/2}" rpy="0 0 0"/>
+        <inertia ixx="${1/12*base_mass*(3*base_radius*base_radius + base_length*base_length)}"
+                 iyy="${1/12*base_mass*(3*base_radius*base_radius + base_length*base_length)}"
+                 izz="${0.5*base_mass*base_radius*base_radius}"
+                 ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!-- Fixed joint from parent_link to pendulum_base_link -->
+    <joint name="pendulum_base_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_pendulum_base_link" />
+      <origin xyz="${base_pose_split[0]} ${base_pose_split[1]} ${base_pose_split[2]}" rpy="${base_pose_split[3]} ${base_pose_split[4]} ${base_pose_split[5]}"/>
+    </joint>
+
+    <!-- Pendulum link -->
+    <link name="${name}_pendulum_link">
+      <visual>
+        <geometry>
+          <box size="${pendulum_size_x} ${pendulum_size_y} ${pendulum_length}" />
+        </geometry>
+        <origin xyz="0 0 ${pendulum_length/2}" rpy="0 0 0"/>
+        <material name="pendulum_color">
+          <color rgba="0.8 0.6 0.2 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${pendulum_size_x} ${pendulum_size_y} ${pendulum_length}" />
+        </geometry>
+        <origin xyz="0 0 ${pendulum_length/2}" rpy="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="${pendulum_mass}" />
+        <origin xyz="0 0 ${pendulum_length/2}" rpy="0 0 0"/>
+        <inertia ixx="${(1/12)*pendulum_mass*(pendulum_size_y*pendulum_size_y + pendulum_length*pendulum_length)}"
+                 iyy="${(1/12)*pendulum_mass*(pendulum_size_x*pendulum_size_x + pendulum_length*pendulum_length)}"
+                 izz="${(1/12)*pendulum_mass*(pendulum_size_x*pendulum_size_x + pendulum_size_y*pendulum_size_y)}"
+                 ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!-- Revolute joint connecting pendulum to base (free rotation, not actuated) -->
+    <joint name="pendulum_joint" type="revolute">
+      <parent link="${name}_pendulum_base_link" />
+      <child link="${name}_pendulum_link" />
+      <origin xyz="0 0 ${base_length+0.007}" rpy="${-pi/2} ${pi/2} 0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="0.0" velocity="10" lower="${-6*pi}" upper="${6*pi}"/>
+      <dynamics damping="0.0" friction="0.001"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

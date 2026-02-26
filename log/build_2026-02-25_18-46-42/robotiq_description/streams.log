@@ -1,0 +1,85 @@
+[0.025s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/yash/ros2-master_dual_box/ros2-master/src/robotiq_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description
+[0.116s] -- The C compiler identification is GNU 13.3.0
+[0.204s] -- The CXX compiler identification is GNU 13.3.0
+[0.234s] -- Detecting C compiler ABI info
+[0.410s] -- Detecting C compiler ABI info - done
+[0.428s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.428s] -- Detecting C compile features
+[0.429s] -- Detecting C compile features - done
+[0.445s] -- Detecting CXX compiler ABI info
+[0.638s] -- Detecting CXX compiler ABI info - done
+[0.655s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.655s] -- Detecting CXX compile features
+[0.656s] -- Detecting CXX compile features - done
+[0.664s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.896s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.012s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.230s] -- Configuring done (1.2s)
+[1.238s] -- Generating done (0.0s)
+[1.252s] -- Build files have been written to: /home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description
+[1.259s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/yash/ros2-master_dual_box/ros2-master/src/robotiq_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description
+[1.261s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description -- -j8 -l8
+[1.330s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description -- -j8 -l8
+[1.331s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description
+[1.348s] -- Install configuration: ""
+[1.348s] -- Execute custom install script
+[1.353s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/config/robotiq_controllers.yaml
+[1.373s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/launch/robotiq_control.launch.py
+[1.394s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/launch/view_gripper.launch.py
+[1.412s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_base_link.stl
+[1.430s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_coupling.stl
+[1.448s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_inner_finger.stl
+[1.464s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_inner_knuckle.stl
+[1.483s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_outer_finger.stl
+[1.509s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_140/robotiq_2f_140_outer_knuckle.stl
+[1.530s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/left_finger.stl
+[1.549s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/left_finger_tip.stl
+[1.572s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/left_inner_knuckle.stl
+[1.592s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/left_knuckle.stl
+[1.610s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/right_finger.stl
+[1.621s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/right_finger_tip.stl
+[1.636s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/right_inner_knuckle.stl
+[1.657s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/right_knuckle.stl
+[1.674s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/robotiq_base.stl
+[1.696s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/collision/2f_85/ur_to_robotiq_adapter.stl
+[1.717s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_base_link.stl
+[1.737s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_coupling.stl
+[1.752s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_inner_finger.stl
+[1.780s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_inner_knuckle.stl
+[1.805s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_outer_finger.stl
+[1.824s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_140/robotiq_2f_140_outer_knuckle.stl
+[1.847s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/left_finger.dae
+[1.867s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/left_finger_tip.dae
+[1.885s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/left_inner_knuckle.dae
+[1.904s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/left_knuckle.dae
+[1.921s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/right_finger.dae
+[1.938s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/right_finger_tip.dae
+[1.955s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/right_inner_knuckle.dae
+[1.976s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/right_knuckle.dae
+[1.995s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/robotiq_base.dae
+[2.012s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/meshes/visual/2f_85/ur_to_robotiq_adapter.dae
+[2.029s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/rviz/view_urdf.rviz
+[2.047s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/2f_140.ros2_control.xacro
+[2.062s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/2f_85.ros2_control.xacro
+[2.079s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/robotiq_2f_140.xacro
+[2.092s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/robotiq_2f_140_gripper.urdf.xacro
+[2.108s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/robotiq_2f_140_macro.urdf.xacro
+[2.125s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/robotiq_2f_85_gripper.urdf.xacro
+[2.142s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/robotiq_2f_85_macro.urdf.xacro
+[2.160s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/urdf/ur_to_robotiq_adapter.urdf.xacro
+[2.180s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/ament_index/resource_index/package_run_dependencies/robotiq_description
+[2.198s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/ament_index/resource_index/parent_prefix_path/robotiq_description
+[2.212s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/environment/ament_prefix_path.sh
+[2.228s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/environment/ament_prefix_path.dsv
+[2.244s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/environment/path.sh
+[2.257s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/environment/path.dsv
+[2.274s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/local_setup.bash
+[2.291s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/local_setup.sh
+[2.309s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/local_setup.zsh
+[2.326s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/local_setup.dsv
+[2.344s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/package.dsv
+[2.362s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/ament_index/resource_index/packages/robotiq_description
+[2.381s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/cmake/robotiq_descriptionConfig.cmake
+[2.394s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/cmake/robotiq_descriptionConfig-version.cmake
+[2.407s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/robotiq_description/share/robotiq_description/package.xml
+[2.427s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/robotiq_description

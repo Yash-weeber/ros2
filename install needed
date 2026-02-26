@@ -1,0 +1,34 @@
+# Update your repositories first
+sudo apt update
+
+# ROS 2 Jazzy Core and Desktop
+sudo apt install ros-jazzy-desktop
+
+# Universal Robots ROS 2 Driver and Description
+sudo apt install ros-jazzy-ur
+
+# Gazebo Harmonic and ROS 2 Integration
+sudo apt install ros-jazzy-ros-gz
+sudo apt install ros-jazzy-gz-ros2-control
+
+# ROS 2 Control CLI and Controllers
+sudo apt install ros-jazzy-ros2controlcli
+sudo apt install ros-jazzy-joint-state-broadcaster
+sudo apt install ros-jazzy-joint-trajectory-controller
+
+# Simulation specific launch files for UR
+sudo apt install ros-jazzy-ur-simulation-gz
+
+
+# Math and Array processing for joint calculations
+numpy>=1.26.0
+
+# ROS 2 Python Client Library (usually provided by system, but good for pip check)
+# Note: On Ubuntu, rclpy is usually managed via apt (python3-rclpy)
+
+sudo apt install python3-colcon-common-extensions
+sudo apt install python3-rosdep
+
+cd ~/ros2_ws
+rosdep update
+rosdep install --from-paths src --ignore-src -y

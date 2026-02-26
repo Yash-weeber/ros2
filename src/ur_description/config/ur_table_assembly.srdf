@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="ur">
+    <group name="ur_manipulator">
+        <chain base_link="base_link" tip_link="mop_tip"/>
+    </group>
+    
+    <group name="ur_2_manipulator">
+        <chain base_link="ur_2_base_link" tip_link="ur_2_tool0"/>
+    </group>
+
+
+    <end_effector name="mop" parent_link="mop_tip" group="ur_manipulator"/>
+    
+
+    <virtual_joint name="fixed_base" type="fixed" parent_frame="world" child_link="base_link"/>
+
+    <disable_collisions link1="base_link" link2="table_link" reason="Adjacent"/>
+    <disable_collisions link1="ur_2_base_link" link2="table_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="ur_2_base_link" reason="Never"/>
+    <disable_collisions link1="ur_2_wrist_3_link" link2="ur_2_robotiq_85_base_link" reason="Adjacent"/>
+    <disable_collisions link1="ur_2_wrist_3_link" link2="ur_2_robotiq_85_left_knuckle_link" reason="Never"/>
+    <disable_collisions link1="ur_2_wrist_3_link" link2="ur_2_robotiq_85_right_knuckle_link" reason="Never"/>
+    <disable_collisions link1="mop_handle" link2="wrist_3_link" reason="Adjacent" />
+    <disable_collisions link1="mop_head" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="tool0" link2="mop_handle" reason="Adjacent" />
+    <disable_collisions link1="ur_2_tool0" link2="ur_2_robotiq_85_base_link" reason="Adjacent" />
+    <disable_collisions link1="mop_head" link2="table_link" reason="Never" />
+        <disable_collisions link1="ur_2_robotiq_85_base_link" link2="ur_2_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="ur_2_robotiq_85_left_knuckle_link" link2="ur_2_wrist_3_link" reason="Never"/>
+    <disable_collisions  link1="ur_2_robotiq_85_right_knuckle_link" link2="ur_2_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="ur_2_robotiq_85_base_link" link2="ur_2_held_strip" reason="Adjacent"/>
+    <disable_collisions link1="ur_2_robotiq_85_left_knuckle_link" link2="ur_2_held_strip" reason="Never"/>
+    <disable_collisions  link1="ur_2_robotiq_85_right_knuckle_link" link2="ur_2_held_strip" reason="Never"/>
+
+    <disable_collisions  link1="ur_2_robotiq_85_right_knuckle_link" link2="ur_2_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions  link1="ur_2_robotiq_85_right_knuckle_link" link2="ur_2_robotiq_85_base_link" reason="Adjacent"/>
+    <disable_collisions  link1="ur_2_robotiq_85_right_knuckle_link" link2="ur_2_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+
+</robot>

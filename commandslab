@@ -1,0 +1,88 @@
+t1
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+ros2 launch ur_description cleaning_session.launch.py
+
+
+
+t2
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5
+
+t3
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+python3 finnal.py
+
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+python3 step1.py
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+python3 hometest.py
+
+
+source install/setup.bash
+export ROS_DOMAIN_ID=42
+ros2 control list_controllers
+
+
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur_table_assembly.urdf.xacro
+
+
+  ros2 run xacro xacro ur_table_assembly.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+  ros2 run xacro xacro ur_mop_standalone.urdf.xacro name:=ur ur_type:=ur5e > ur_for_ik.urdf
+
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5e   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur.urdf.xacro
+
+
+
+
+colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
+source install/setup.bash
+ros2 launch ur_description view_ur.launch.py   ur_type:=ur5   description_file:=$(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur_mop_standalone.urdf.xacro
+
+
+source /opt/ros/jazzy/setup.bash
+source ~/ros2_ws/install/setup.bash
+export ROS_DOMAIN_ID=42
+
+
+
+
+cd ~/ros2_ws
+colcon build --packages-select ur_moveit_config --allow-overriding ur_moveit_config
+source install/setup.bash
+
+
+
+ros2 action send_goal \
+  /scaled_joint_trajectory_controller/follow_joint_trajectory \
+  control_msgs/action/FollowJointTrajectory \
+  '{trajectory: {joint_names: ["shoulder_pan_joint","shoulder_lift_joint","elbow_joint","wrist_1_joint","wrist_2_joint","wrist_3_joint"],
+                points: [{positions: [1.117, -1.234, 1.869, -3.694, -0.921, -0.0089],
+                          time_from_start: {sec: 5}}]}}'
+
+
+ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5 robot_ip:=192.168.1.102 launch_rviz:=false
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5 robot_ip:=192.168.1.102 launch_rviz:=true
+ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py robot_ip:=192.168.1.102 use_fake_hardware:=false

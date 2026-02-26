@@ -1,0 +1,198 @@
+[0.016s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers
+[0.090s] -- The C compiler identification is GNU 13.3.0
+[0.167s] -- The CXX compiler identification is GNU 13.3.0
+[0.192s] -- Detecting C compiler ABI info
+[0.327s] -- Detecting C compiler ABI info - done
+[0.362s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.363s] -- Detecting C compile features
+[0.364s] -- Detecting C compile features - done
+[0.383s] -- Detecting CXX compiler ABI info
+[0.518s] -- Detecting CXX compiler ABI info - done
+[0.529s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.529s] -- Detecting CXX compile features
+[0.530s] -- Detecting CXX compile features - done
+[0.537s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.720s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.815s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.945s] -- Found angles: 1.16.1 (/opt/ros/jazzy/share/angles/cmake)
+[0.953s] -- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[1.051s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.077s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.105s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.136s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.445s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.514s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.521s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[1.569s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.670s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[1.675s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.699s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[1.703s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.716s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.733s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.117s] -- Found joint_trajectory_controller: 4.36.0 (/opt/ros/jazzy/share/joint_trajectory_controller/cmake)
+[2.224s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[2.226s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[2.227s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[2.356s] -- Found std_srvs: 5.3.6 (/opt/ros/jazzy/share/std_srvs/cmake)
+[2.375s] -- Found ur_dashboard_msgs: 3.3.3 (/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/share/ur_dashboard_msgs/cmake)
+[2.412s] -- Found ur_msgs: 2.3.0 (/opt/ros/jazzy/share/ur_msgs/cmake)
+[2.484s] -- Found ament_cmake_gmock: 2.5.5 (/opt/ros/jazzy/share/ament_cmake_gmock/cmake)
+[2.490s] -- Found controller_manager: 4.42.2 (/opt/ros/jazzy/share/controller_manager/cmake)
+[2.583s] -- Found ros2_control_test_assets: 4.42.2 (/opt/ros/jazzy/share/ros2_control_test_assets/cmake)
+[2.588s] -- Found gmock sources under '/opt/ros/jazzy/src/gmock_vendor': C++ tests using 'Google Mock' will be built
+[2.600s] -- Found ament_cmake_gtest: 2.5.5 (/opt/ros/jazzy/share/ament_cmake_gtest/cmake)
+[2.600s] -- Found gtest sources under '/opt/ros/jazzy/src/gtest_vendor': C++ tests using 'Google Test' will be built
+[2.710s] -- Configuring done (2.7s)
+[2.815s] -- Generating done (0.1s)
+[2.833s] -- Build files have been written to: /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers
+[2.855s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers' returned '0': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers
+[2.857s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers -- -j8 -l8
+[2.954s] [  2%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/gpio_controller_parameters.yaml `[0m
+[2.958s] [  5%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/ur_configuration_controller_parameters.yaml `[0m
+[2.958s] [  8%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/tool_contact_controller_parameters.yaml `[0m
+[2.961s] [ 11%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/freedrive_mode_controller_parameters.yaml `[0m
+[2.970s] [ 14%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/speed_scaling_state_broadcaster_parameters.yaml `[0m
+[2.974s] [ 17%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/force_mode_controller_parameters.yaml `[0m
+[2.980s] [ 20%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/passthrough_trajectory_controller_parameters.yaml `[0m
+[2.986s] [ 23%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp /home/yash/ros2-master_dual_box/ros2-master/src/ur_controllers/src/scaled_joint_trajectory_controller_parameters.yaml `[0m
+[3.966s] [ 26%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/ur_configuration_controller_parameters.hpp[0m
+[4.011s] [ 26%] Built target ur_configuration_controller_parameters
+[4.016s] [ 29%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/gpio_controller_parameters.hpp[0m
+[4.057s] [ 32%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/freedrive_mode_controller_parameters.hpp[0m
+[4.060s] [ 35%] [32mBuilding CXX object gmock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o[0m
+[4.060s] [ 38%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/speed_scaling_state_broadcaster_parameters.hpp[0m
+[4.072s] [ 38%] Built target gpio_controller_parameters
+[4.077s] [ 41%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/force_mode_controller_parameters.hpp[0m
+[4.085s] [ 44%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/tool_contact_controller_parameters.hpp[0m
+[4.095s] [ 47%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/scaled_joint_trajectory_controller_parameters.hpp[0m
+[4.114s] [ 50%] [32mBuilding CXX object gmock/CMakeFiles/gmock.dir/opt/ros/jazzy/src/gtest_vendor/src/gtest-all.cc.o[0m
+[4.118s] [ 50%] Built target speed_scaling_state_broadcaster_parameters
+[4.118s] [ 50%] Built target freedrive_mode_controller_parameters
+[4.127s] [ 50%] Built target tool_contact_controller_parameters
+[4.137s] [ 50%] Built target force_mode_controller_parameters
+[4.141s] [ 52%] [32mBuilding CXX object gmock/CMakeFiles/gmock.dir/src/gmock-all.cc.o[0m
+[4.145s] [ 52%] Built target scaled_joint_trajectory_controller_parameters
+[4.158s] [ 55%] [34m[1mCreating deprecated header file /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers/include/passthrough_trajectory_controller_parameters.hpp[0m
+[4.188s] [ 55%] Built target passthrough_trajectory_controller_parameters
+[4.233s] [ 58%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/tool_contact_controller.cpp.o[0m
+[4.234s] [ 61%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/scaled_joint_trajectory_controller.cpp.o[0m
+[4.237s] [ 64%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/freedrive_mode_controller.cpp.o[0m
+[4.237s] [ 67%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/speed_scaling_state_broadcaster.cpp.o[0m
+[4.237s] [ 70%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/force_mode_controller.cpp.o[0m
+[5.902s] [ 73%] [32m[1mLinking CXX static library libgmock_main.a[0m
+[6.029s] [ 73%] Built target gmock_main
+[6.047s] [ 76%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/gpio_controller.cpp.o[0m
+[7.130s] [ 79%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/passthrough_trajectory_controller.cpp.o[0m
+[10.417s] [ 82%] [32m[1mLinking CXX static library libgmock.a[0m
+[10.572s] [ 82%] Built target gmock
+[10.591s] [ 85%] [32mBuilding CXX object CMakeFiles/ur_controllers.dir/src/ur_configuration_controller.cpp.o[0m
+[21.554s] [ 88%] [32m[1mLinking CXX shared library libur_controllers.so[0m
+[22.994s] [ 88%] Built target ur_controllers
+[23.031s] [ 91%] [32mBuilding CXX object CMakeFiles/test_load_freedrive_mode_controller.dir/test/test_load_freedrive_mode_controller.cpp.o[0m
+[23.033s] [ 94%] [32mBuilding CXX object CMakeFiles/test_load_force_mode_controller.dir/test/test_load_force_mode_controller.cpp.o[0m
+[29.001s] [ 97%] [32m[1mLinking CXX executable test_load_force_mode_controller[0m
+[29.158s] [100%] [32m[1mLinking CXX executable test_load_freedrive_mode_controller[0m
+[29.417s] [100%] Built target test_load_force_mode_controller
+[29.593s] [100%] Built target test_load_freedrive_mode_controller
+[29.611s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers' returned '0': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers -- -j8 -l8
+[29.613s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers
+[29.627s] -- Install configuration: ""
+[29.628s] -- Execute custom install script
+[29.629s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.645s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.658s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.670s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.683s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.696s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.710s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.729s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.745s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.746s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.746s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.747s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.747s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.748s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.748s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.749s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.749s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.750s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.750s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.751s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.751s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.752s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.753s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.753s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.754s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.754s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.755s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.755s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.756s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.756s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.757s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.757s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.758s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.759s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.759s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.760s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.760s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.761s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.761s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.762s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.763s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.764s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.764s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.765s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.765s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.766s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.766s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.766s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.767s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.769s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.769s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.770s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.770s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.771s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.771s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.771s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.772s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller_parameters.hpp
+[29.772s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller_parameters.hpp
+[29.773s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller_parameters.hpp
+[29.773s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller_parameters.hpp
+[29.774s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller_parameters.hpp
+[29.775s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster_parameters.hpp
+[29.775s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller_parameters.hpp
+[29.776s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller_parameters.hpp
+[29.776s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers//controller_plugins.xml
+[29.798s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/lib/libur_controllers.so
+[29.816s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/force_mode_controller.hpp
+[29.834s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/freedrive_mode_controller.hpp
+[29.851s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/gpio_controller.hpp
+[29.866s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/passthrough_trajectory_controller.hpp
+[29.882s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/scaled_joint_trajectory_controller.hpp
+[29.897s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/speed_scaling_state_broadcaster.hpp
+[29.912s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/tool_contact_controller.hpp
+[29.926s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/include/ur_controllers/ur_configuration_controller.hpp
+[29.941s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/controller_plugins.xml
+[29.941s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/library_path.sh
+[29.955s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/library_path.dsv
+[29.969s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ament_index/resource_index/package_run_dependencies/ur_controllers
+[29.982s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ament_index/resource_index/parent_prefix_path/ur_controllers
+[29.995s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/ament_prefix_path.sh
+[30.008s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/ament_prefix_path.dsv
+[30.021s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/path.sh
+[30.034s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/environment/path.dsv
+[30.052s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/local_setup.bash
+[30.070s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/local_setup.sh
+[30.088s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/local_setup.zsh
+[30.107s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/local_setup.dsv
+[30.132s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/package.dsv
+[30.149s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ament_index/resource_index/packages/ur_controllers
+[30.163s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ur_controllers
+[30.178s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/cmake/ament_cmake_export_dependencies-extras.cmake
+[30.191s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/cmake/ament_cmake_export_include_directories-extras.cmake
+[30.205s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/cmake/ament_cmake_export_libraries-extras.cmake
+[30.219s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/cmake/ur_controllersConfig.cmake
+[30.233s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/cmake/ur_controllersConfig-version.cmake
+[30.245s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_controllers/share/ur_controllers/package.xml
+[30.262s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers' returned '0': AMENT_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/yash/ros2-master_dual_box/ros2-master/install/ur_dashboard_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/ur_controllers
