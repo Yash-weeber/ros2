@@ -1,0 +1,59 @@
+-- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/yash/ros2-master_dual_box/ros2-master/build/ur_moveit_config
+-- Install configuration: ""
+-- Execute custom install script
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/chomp_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/joint_limits.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/kinematics (Copy).yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/kinematics.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/moveit.rviz
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/moveit_controllers.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/ompl_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/pilz_cartesian_limits.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/pilz_industrial_motion_planner_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/config/ur_servo.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/launch/ur_moveit.launch.py
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./CMakeLists.txt
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./cmake/ur_moveit_configConfig-version.cmake
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./cmake/ur_moveit_configConfig.cmake
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/chomp_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/joint_limits.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/kinematics (Copy).yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/kinematics.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/moveit.rviz
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/moveit_controllers.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/ompl_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/pilz_cartesian_limits.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/pilz_industrial_motion_planner_planning.yaml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./config/ur_servo.yaml
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./environment/ament_prefix_path.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./environment/ament_prefix_path.sh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./environment/path.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./environment/path.sh
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./launch/ur_moveit.launch.py
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./local_setup.bash
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./local_setup.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./local_setup.sh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./local_setup.zsh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./package.dsv
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./package.xml
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./srdf/ur.srdf.xacro
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/./srdf/ur_macro.srdf.xacro
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ament_index/resource_index/package_run_dependencies/ur_moveit_config
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ament_index/resource_index/parent_prefix_path/ur_moveit_config
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/environment/ament_prefix_path.sh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/environment/ament_prefix_path.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/environment/path.sh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/environment/path.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/local_setup.bash
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/local_setup.sh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/local_setup.zsh
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/local_setup.dsv
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/package.dsv
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ament_index/resource_index/packages/ur_moveit_config
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/cmake/ur_moveit_configConfig.cmake
+-- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/cmake/ur_moveit_configConfig-version.cmake
+-- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/ur_moveit_config/share/ur_moveit_config/package.xml

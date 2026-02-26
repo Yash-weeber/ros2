@@ -372,6 +372,7 @@ class DualMopControlSystem(Node):
                     seed = self.current_joints_1 if robot_id == 1 else self.current_joints_2
                     sol = self.get_ik(x, y, z, seed, robot_id)
                     if sol:
+                        print(f"IK Success! Moving Robot {robot_id} to {x}, {y}...")
                         self.move_to_joints(sol, robot_id)
                     else:
                         print("IK Failed for these coordinates.")

@@ -1,0 +1,32 @@
+[0.036s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/serial': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/serial -- -j8 -l8
+[0.171s] [100%] Built target serial
+[0.219s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/serial' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/yash/ros2-master_dual_box/ros2-master/build/serial -- -j8 -l8
+[0.220s] Invoking command in '/home/yash/ros2-master_dual_box/ros2-master/build/serial': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/serial
+[0.257s] -- Install configuration: ""
+[0.260s] -- Execute custom install script
+[0.261s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/library_path.sh
+[0.261s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/library_path.dsv
+[0.261s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/include/serial/serial.h
+[0.261s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/include/serial/v8stdint.h
+[0.262s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/ament_index/resource_index/package_run_dependencies/serial
+[0.265s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/ament_index/resource_index/parent_prefix_path/serial
+[0.266s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/ament_prefix_path.sh
+[0.273s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/ament_prefix_path.dsv
+[0.278s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/path.sh
+[0.278s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/environment/path.dsv
+[0.278s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/local_setup.bash
+[0.283s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/local_setup.sh
+[0.285s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/local_setup.zsh
+[0.285s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/local_setup.dsv
+[0.285s] -- Symlinking: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/package.dsv
+[0.290s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/ament_index/resource_index/packages/serial
+[0.290s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.291s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/ament_cmake_export_libraries-extras.cmake
+[0.291s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/ament_cmake_export_targets-extras.cmake
+[0.291s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/serialConfig.cmake
+[0.291s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/serialConfig-version.cmake
+[0.291s] -- Up-to-date symlink: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/package.xml
+[0.291s] -- Up-to-date: /home/yash/ros2-master_dual_box/ros2-master/install/serial/lib/libserial.a
+[0.291s] -- Up-to-date: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/serialTargetsExport.cmake
+[0.291s] -- Up-to-date: /home/yash/ros2-master_dual_box/ros2-master/install/serial/share/serial/cmake/serialTargetsExport-noconfig.cmake
+[0.368s] Invoked command in '/home/yash/ros2-master_dual_box/ros2-master/build/serial' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/yash/ros2-master_dual_box/ros2-master/build/serial
