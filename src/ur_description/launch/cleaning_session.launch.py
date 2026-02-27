@@ -130,11 +130,11 @@ def generate_launch_description():
         executable='spawner',
         arguments=['ur_2_controller']
     )
-    ur2_gripper_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['ur_2_gripper_controller']
-    )
+    # ur2_gripper_spawner = Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     arguments=['ur_2_gripper_controller']
+    # )
     # NOTE: test.py is REMOVED from this list
     return LaunchDescription([
         node_robot_state_publisher,
@@ -142,5 +142,5 @@ def generate_launch_description():
         gz_spawn_entity,
         node_gz_bridge,
         TimerAction(period=5.0, actions=[jsb_spawner]),
-        TimerAction(period=7.0, actions=[ur1_spawner, ur2_spawner,ur2_gripper_spawner]),
+        TimerAction(period=7.0, actions=[ur1_spawner, ur2_spawner]),#,ur2_gripper_spawner]),
     ])

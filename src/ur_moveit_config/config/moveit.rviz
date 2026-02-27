@@ -5,8 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Frames1/mop_tip1
       Splitter Ratio: 0.4957627058029175
-    Tree Height: 573
+    Tree Height: 375
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -53,8 +56,6 @@ Visualization Manager:
       MoveIt_Planning_Time: 5
       MoveIt_Use_Cartesian_Path: false
       MoveIt_Use_Constraint_Aware_IK: false
-      MoveIt_Warehouse_Host: 127.0.0.1
-      MoveIt_Warehouse_Port: 33829
       MoveIt_Workspace:
         Center:
           X: 0
@@ -96,7 +97,44 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          mop_dummy_r:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          mop_handle:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mop_head:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mop_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          stand_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          stand_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          table_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -110,6 +148,75 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          ur_2_base:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_base_link_inertia:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_flange:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_forearm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_gripper:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_held_strip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_tool0:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_upper_arm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_3_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          world:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           wrist_1_link:
             Alpha: 1
             Show Axes: false
@@ -134,6 +241,7 @@ Visualization Manager:
         State Display Time: 0.05 s
         Trail Step Size: 1
         Trajectory Topic: /display_planned_path
+        Use Sim Time: false
       Planning Metrics:
         Payload: 1
         Show Joint Torques: false
@@ -192,7 +300,44 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          mop_dummy_r:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          mop_handle:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mop_head:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mop_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          stand_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          stand_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          table_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -206,6 +351,75 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          ur_2_base:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_base_link_inertia:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_flange:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_forearm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_gripper:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_held_strip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_tool0:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          ur_2_upper_arm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ur_2_wrist_3_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          world:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           wrist_1_link:
             Alpha: 1
             Show Axes: false
@@ -226,6 +440,172 @@ Visualization Manager:
         Show Robot Visual: true
       Value: true
       Velocity_Scaling_Factor: 0.1
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base:
+          Value: true
+        base_link:
+          Value: true
+        base_link_inertia:
+          Value: true
+        flange:
+          Value: true
+        forearm_link:
+          Value: true
+        ft_frame:
+          Value: true
+        mop_dummy_r:
+          Value: true
+        mop_handle:
+          Value: true
+        mop_head:
+          Value: true
+        mop_tip:
+          Value: true
+        shoulder_link:
+          Value: true
+        stand_1_link:
+          Value: true
+        stand_2_link:
+          Value: true
+        table_link:
+          Value: true
+        tool0:
+          Value: true
+        upper_arm_link:
+          Value: true
+        ur_2_base:
+          Value: true
+        ur_2_base_link:
+          Value: true
+        ur_2_base_link_inertia:
+          Value: true
+        ur_2_flange:
+          Value: true
+        ur_2_forearm_link:
+          Value: true
+        ur_2_ft_frame:
+          Value: true
+        ur_2_gripper:
+          Value: true
+        ur_2_held_strip:
+          Value: true
+        ur_2_shoulder_link:
+          Value: true
+        ur_2_tool0:
+          Value: true
+        ur_2_upper_arm_link:
+          Value: true
+        ur_2_wrist_1_link:
+          Value: true
+        ur_2_wrist_2_link:
+          Value: true
+        ur_2_wrist_3_link:
+          Value: true
+        world:
+          Value: true
+        wrist_1_link:
+          Value: true
+        wrist_2_link:
+          Value: true
+        wrist_3_link:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        world:
+          base_link:
+            base:
+              {}
+            base_link_inertia:
+              shoulder_link:
+                upper_arm_link:
+                  forearm_link:
+                    wrist_1_link:
+                      wrist_2_link:
+                        wrist_3_link:
+                          flange:
+                            tool0:
+                              mop_handle:
+                                mop_dummy_r:
+                                  mop_head:
+                                    {}
+                                mop_tip:
+                                  {}
+                          ft_frame:
+                            {}
+          stand_1_link:
+            {}
+          stand_2_link:
+            {}
+          table_link:
+            {}
+          ur_2_base_link:
+            ur_2_base:
+              {}
+            ur_2_base_link_inertia:
+              ur_2_shoulder_link:
+                ur_2_upper_arm_link:
+                  ur_2_forearm_link:
+                    ur_2_wrist_1_link:
+                      ur_2_wrist_2_link:
+                        ur_2_wrist_3_link:
+                          ur_2_flange:
+                            ur_2_tool0:
+                              ur_2_gripper:
+                                {}
+                              ur_2_held_strip:
+                                {}
+                          ur_2_ft_frame:
+                            {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: visualization_marker_array
+      Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: ""
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: ""
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -241,6 +621,9 @@ Visualization Manager:
     - Class: rviz_default_plugins/Measure
       Line color: 128; 128; 0
     - Class: rviz_default_plugins/SetInitialPose
+      Covariance x: 0.25
+      Covariance y: 0.25
+      Covariance yaw: 0.06853891909122467
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -269,7 +652,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 6.619869709014893
+      Distance: 3.097532033920288
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -284,28 +667,28 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4103981554508209
+      Pitch: 0.8903976678848267
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.210397720336914
+      Yaw: 3.4335875511169434
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1381
+  Height: 1043
   Hide Left Dock: false
   Hide Right Dock: false
   MotionPlanning:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001e0000004f6fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000007901000003fb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000046000002e3000000ff01000003fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000005201000003fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000032a00000212000001b9010000030000000100000110000004f6fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730100000046000004f6000000d701000003fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004420000003efc0100000002fb0000000800540069006d00650100000000000004420000000000000000fb0000000800540069006d006501000000000000045000000000000000000000070e000004f600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ee000003b5fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f0000020e000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004400fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000253000001a10000019600ffffff0000000100000110000003b5fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003f000003b5000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004420000003efc0100000002fb0000000800540069006d00650100000000000004420000000000000000fb0000000800540069006d0065010000000000000450000000000000000000000476000003b500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Tool Properties:
     collapsed: false
   Views:
     collapsed: false
-  Width: 2560
+  Width: 1920
   X: 0
-  Y: 30
+  Y: 0

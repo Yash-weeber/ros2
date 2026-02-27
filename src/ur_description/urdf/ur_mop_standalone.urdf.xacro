@@ -4,7 +4,7 @@
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
   <xacro:include filename="$(find ur_description)/urdf/inc/mop_tool.xacro"/>
   <!-- ADDED: official ros2_control macro that has ALL required params -->
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/> -->
   <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
 
   <xacro:arg name="ur_type" default="ur5"/>
@@ -87,15 +87,42 @@
     safety_pos_margin="$(arg safety_pos_margin)"
     safety_k_position="$(arg safety_k_position)"
     >
-    <origin xyz="0.0 -1.455 0.65" rpy="0 0 0.0" />
+    <origin xyz="0.0 -1.44 0.65" rpy="0 0 0.0" />
   </xacro:ur_robot>
-  <xacro:robotiq_gripper
+  <!-- <xacro:robotiq_gripper
     name="ur_2_robotiq_85"
     prefix="ur_2_"
     parent="ur_2_tool0"
     include_ros2_control="false"    >
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:robotiq_gripper>
+  </xacro:robotiq_gripper> -->
+   <link name="ur_2_gripper">
+    <visual>
+      <geometry>
+        <box size="0.13 0.05 0.07"/>
+      </geometry>
+      <material name="gripper_color">
+        <color rgba="0.7 0.71 0.8 1.0"/> </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.13 0.05 0.07"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+    <joint name="ur_2_gripper_joint" type="fixed">
+    <parent link="ur_2_tool0"/>
+    <child link="ur_2_gripper"/>
+    <origin xyz="0 0 0.04" rpy="0 ${pi/2} 0"/>
+  </joint>
+
+
   <link name="ur_2_held_strip">
     <visual>
       <geometry>
@@ -117,7 +144,7 @@
   </link>
 
   <joint name="ur_2_to_strip" type="fixed">
-    <parent link="ur_2_robotiq_85_base_link"/>
+    <parent link="ur_2_tool0"/>
     <child link="ur_2_held_strip"/>
     <origin xyz="0 0 0.18" rpy="0 ${pi/2} 0"/>
   </joint>
@@ -250,11 +277,7 @@
         <state_interface name="position"/>
         <state_interface name="velocity"/>
       </joint>
-      <joint name="ur_2_robotiq_85_left_knuckle_joint">
-        <command_interface name="position"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
+
     </ros2_control>
 
     <gazebo>
@@ -345,5 +368,114 @@
     <parent link="world"/>
     <child link="stand_2_link"/>
     <origin rpy="0 0 ${pi}" xyz="0.0 -1.455 0.325"/>
+  </joint>
+
+  <!-- Wall -->
+  <link name="wall_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="3.5 0.2 3.5"/>
+      </geometry>
+      <material name="wall_material"><color rgba="0.8 0.8 0.8 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="3.5 0.2 3.5"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="50"/>
+      <origin rpy="0 0 0" xyz="0.0 -1.455 1.25"/>
+      <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="10"/>
+    </inertial>
+  </link>
+  
+  <joint name="world_to_wall" type="fixed">
+    <parent link="world"/>
+    <child link="wall_link"/>
+    <origin rpy="0 0 ${pi}" xyz="0.0 0.545 1.25"/>
+  </joint>
+
+  <!-- Camera setup -->
+  <link name="camera_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="camera_material"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.5"/>
+      <inertia ixx="1" ixy="1" ixz="1" iyy="1" iyz="1" izz="1"/>
+    </inertial>
+  </link>
+
+  <link name="camera_optical_link_1">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length="0.60" radius="0.025"/>
+      </geometry>
+      <material name="camera_material"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length="0.60" radius="0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin rpy="0 0 0" xyz="0.0 0.05 0.5"/>
+      <inertia ixx="1" ixy="1" ixz="1" iyy="1" iyz="1" izz="1"/>
+    </inertial>
+  </link>
+
+  <link name="camera_optical_link_2">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length="1.23" radius="0.025"/>
+      </geometry>
+      <material name="camera_material"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length="1.23" radius="0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin rpy="0 0 0" xyz="-0.05 0.05 0.5"/>
+      <inertia ixx="1" ixy="1" ixz="1" iyy="1" iyz="1" izz="1"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_to_optical_1" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link_1"/>
+    <origin rpy="0 ${pi/2} 0" xyz="-0.3 0.0 0.0"/>
+  </joint>
+
+  <joint name="camera_to_optical_2" type="fixed">
+    <parent link="camera_optical_link_1"/>
+    <child link="camera_optical_link_2"/>
+    <origin rpy="${pi/2} 0 0" xyz="0.0 0.615 -0.3"/>
+  </joint>
+  <joint name="world_to_camera" type="fixed">
+    <parent link="world"/>
+    <child link="camera_link"/>
+    <origin rpy="0 ${pi/2} 0" xyz="0.0 -0.86 1.57"/>
   </joint>
 </robot>
