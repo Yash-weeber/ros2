@@ -12,7 +12,7 @@
         use_fake_hardware:=false
         mock_sensor_commands:=false
         include_ros2_control:=true
-        com_port:=/dev/ttyUSB0
+        com_port:=/tmp/ttyUR
         gripper_speed_multiplier:=1.0
         gripper_force_multiplier:=0.5
         gripper_max_speed:=0.150

@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="robotiq_gripper">
     <!-- parameters -->
     <xacro:arg name="use_fake_hardware" default="true" />
-    <xacro:arg name="com_port" default="/dev/ttyUSB0" />
+    <xacro:arg name="com_port" default="/tmp/ttyUR" />
 
     <!-- Import macros -->
     <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_140_macro.urdf.xacro" />

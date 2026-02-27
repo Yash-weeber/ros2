@@ -114,6 +114,11 @@
 
     <disable_collisions link1="ur_2_base_link" link2="table_link" reason="Adjacent"/>
 
+    <disable_collisions link1="stand_1_link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="stand_1_link" link2="base_link_inertia" reason="Adjacent"/>
+
+    <disable_collisions link1="stand_2_link" link2="ur_2_base_link" reason="Adjacent"/>
+    <disable_collisions link1="stand_2_link" link2="ur_2_base_link_inertia" reason="Adjacent"/>
 
   <xacro:ur_srdf/>
 

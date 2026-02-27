@@ -72,7 +72,8 @@ def generate_launch_description():
     args.append(
         launch.actions.DeclareLaunchArgument(
             name="com_port",
-            default_value="/dev/ttyUSB0",
+            # default_value="/dev/ttyUSB0",
+            default_value= "/dev/ttyUR",
             description="Port for communicating with Robotiq hardware",
         )
     )

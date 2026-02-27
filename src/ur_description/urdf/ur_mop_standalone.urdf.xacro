@@ -9,17 +9,20 @@
 
   <xacro:arg name="ur_type" default="ur5"/>
   <xacro:arg name="tf_prefix" default="" />
+  <xacro:arg name="tf_prefix_2" default="ur_2_" />
   <xacro:arg name="name" default="ur"/>
   <xacro:arg name="use_gazebo" default="false"/>
   <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
   <xacro:arg name="kinematics_params" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="kinematics_params_2" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics_2.yaml"/>
   <xacro:arg name="physical_params" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
   <xacro:arg name="visual_params" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
   <xacro:arg name="safety_limits" default="false"/>
   <xacro:arg name="safety_pos_margin" default="0.15"/>
   <xacro:arg name="safety_k_position" default="20"/>
 
-  <xacro:arg name="robot_ip" default="192.168.1.103"/>
+  <xacro:arg name="robot_ip" default="192.168.1.104"/>
+  <xacro:arg name="robot_2_ip" default="192.168.1.103"/>
   <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="mock_sensor_commands" default="false"/>
   <xacro:arg name="headless_mode" default="false"/>
@@ -31,8 +34,12 @@
   <xacro:arg name="reverse_port" default="50001"/>
   <xacro:arg name="script_sender_port" default="50002"/>
   <xacro:arg name="trajectory_port" default="50003"/>
+  <xacro:arg name="script_command_port_2" default="50014"/>
+  <xacro:arg name="reverse_port_2" default="50011"/>
+  <xacro:arg name="script_sender_port_2" default="50012"/>
+  <xacro:arg name="trajectory_port_2" default="50013"/>
 
-  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="use_tool_communication" default="true"/>
   <xacro:arg name="tool_parity" default="0"/>
   <xacro:arg name="tool_baud_rate" default="115200"/>
   <xacro:arg name="tool_stop_bits" default="1"/>
@@ -61,14 +68,14 @@
     safety_pos_margin="$(arg safety_pos_margin)"
     safety_k_position="$(arg safety_k_position)"
     >
-    <origin xyz="0.03 -0.0 0.65" rpy="0 0 ${pi}" />
+    <origin xyz="0.036 -0.0 1.0" rpy="0 0 ${-pi/4}" />
   </xacro:ur_robot>
 
   <!-- Mop tool attached to robot 1's tool0 -->
   <xacro:mop_tool prefix="" parent="$(arg tf_prefix)tool0" />
 
   <!-- ROBOT 2: second robot (no hardware interface, visualization only) -->
-   <xacro:ur_robot
+  <xacro:ur_robot
     name="ur_2"
     tf_prefix="ur_2_"
     parent="world"
@@ -80,7 +87,7 @@
     safety_pos_margin="$(arg safety_pos_margin)"
     safety_k_position="$(arg safety_k_position)"
     >
-    <origin xyz="0.0 -1.1 1.0" rpy="0 0 ${pi}" />
+    <origin xyz="0.0 -1.455 0.65" rpy="0 0 0.0" />
   </xacro:ur_robot>
   <xacro:robotiq_gripper
     name="ur_2_robotiq_85"
@@ -146,6 +153,34 @@
       reverse_port="$(arg reverse_port)"
       script_sender_port="$(arg script_sender_port)"
       trajectory_port="$(arg trajectory_port)"
+    />
+    <xacro:ur_ros2_control
+      name="UR5ControlSystem_2"
+      tf_prefix="$(arg tf_prefix_2)"
+      kinematics_parameters_file="$(arg kinematics_params_2)"
+      transmission_hw_interface="$(arg transmission_hw_interface)"
+      use_mock_hardware="$(arg use_mock_hardware)"
+      mock_sensor_commands="$(arg mock_sensor_commands)"
+      headless_mode="$(arg headless_mode)"
+      initial_positions="${xacro.load_yaml(initial_positions_file)}"
+      use_tool_communication="$(arg use_tool_communication)"
+      tool_voltage="$(arg tool_voltage)"
+      tool_parity="$(arg tool_parity)"
+      tool_baud_rate="$(arg tool_baud_rate)"
+      tool_stop_bits="$(arg tool_stop_bits)"
+      tool_rx_idle_chars="$(arg tool_rx_idle_chars)"
+      tool_tx_idle_chars="$(arg tool_tx_idle_chars)"
+      tool_device_name="$(arg tool_device_name)"
+      tool_tcp_port="$(arg tool_tcp_port)"
+      robot_ip="$(arg robot_2_ip)"
+      script_filename="$(arg script_filename)"
+      output_recipe_filename="$(arg output_recipe_filename)"
+      input_recipe_filename="$(arg input_recipe_filename)"
+      reverse_ip="$(arg reverse_ip)"
+      script_command_port="$(arg script_command_port_2)"
+      reverse_port="$(arg reverse_port_2)"
+      script_sender_port="$(arg script_sender_port_2)"
+      trajectory_port="$(arg trajectory_port_2)"
     />
   </xacro:unless>
   <xacro:if value="$(arg use_gazebo)">
@@ -215,7 +250,7 @@
         <state_interface name="position"/>
         <state_interface name="velocity"/>
       </joint>
-<joint name="ur_2_robotiq_85_left_knuckle_joint">
+      <joint name="ur_2_robotiq_85_left_knuckle_joint">
         <command_interface name="position"/>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
@@ -254,7 +289,61 @@
   <joint name="world_to_table" type="fixed">
     <parent link="world"/>
     <child link="table_link"/>
-    <origin rpy="0 0 ${pi}" xyz="0.0 -0.575 0.31"/>
+    <origin rpy="0 0 0" xyz="0.0 -0.675 0.31"/>
   </joint>
 
+  <!-- Stand 1 -->
+  <link name="stand_1_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.495 0.495 1.0"/>
+      </geometry>
+      <material name="stand_material"><color rgba="0.6 0.4 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.0 0.0"/>
+      <geometry>
+        <box size="0.495 0.495 1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <origin rpy="0 0 0" xyz="0 0.0 0.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link> 
+
+  <joint name="world_to_stand_1" type="fixed">
+    <parent link="world"/>
+    <child link="stand_1_link"/>
+    <origin rpy="0 0 ${pi}" xyz="0.0 0.0 0.5"/>
+  </joint>
+  <!-- Stand 2 -->
+  <link name="stand_2_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.15 0.15 0.65"/>
+      </geometry>
+      <material name="stand_material"><color rgba="0.6 0.4 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.0 0.0"/>
+      <geometry>
+        <box size="0.15 0.15 0.65"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <origin rpy="0 0 0" xyz="0 0.0 0.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  
+  <joint name="world_to_stand_2" type="fixed">
+    <parent link="world"/>
+    <child link="stand_2_link"/>
+    <origin rpy="0 0 ${pi}" xyz="0.0 -1.455 0.325"/>
+  </joint>
 </robot>
