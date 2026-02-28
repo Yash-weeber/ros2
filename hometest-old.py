@@ -74,7 +74,7 @@ class DualMopControlSystem(Node):
         #     10)   # queue depth of 10
         self.ur1_pub = self.create_publisher(
             JointTrajectory,
-            '/joint_trajectory_controller/joint_trajectory',
+            '/scaled_joint_trajectory_controller/joint_trajectory',
             10)   # queue depth of 10
 
         # Publisher: sends JointTrajectory commands to Robot 2's controller
@@ -125,7 +125,7 @@ class DualMopControlSystem(Node):
         home_qs_r1 = [-59.17, -69.74, 96.13, -122.94, -89.73, 195.46]
         # Robot 2 home/ready pose above the scooping area
         # home_qs_r2 = [-16.57, -71.79, 127.75, -230.10, -86.40, 192.74]
-        home_qs_r2 = [-17.66, -75.96, 85.00, -197.75, -80.77, 192.74]
+        home_qs_r2 = [-37.32,-51.07,99.88,-245.13,-66.17,268.34]
 
         # Convert all poses from degrees to radians for the controller
         self.home_pose_r1 = self.deg_to_rad(home_qs_r1)   # Robot 1 home (rad)
@@ -138,21 +138,29 @@ class DualMopControlSystem(Node):
         # in degrees. These are converted to radians when the trajectory is built.
         self.ur2_fixed_trajectory = {
             'home_rest':  home_qs_r2,  # Safe start/end
-            'work_safe':  [ 84.32, -40.01,  44.64, -194.52, -92.74, 174.65],  # Hover above table
+            'home_rest_safe': [-36.81,-79.65,68.67,-183.56,-91.73,267.84],  # Safe start/end
+            'work_safe':  [ 84.32, -40.01,  44.64, -194.52, -92.74, 282.35],  # Hover above table
             # 'work_point': [ 88.82,   2.22,   0.01, -176.72, -96.61, 166.75],  # Touch-down on table
-            'work_point': [ 89.07,   1.7,   1.95, -182.16, -96.4, 166.75],  # Touch-down on table
-            'motion_pt1': [ 62.82,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep right along table
-            'motion_pt2': [117.30,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep left along table
-            # 'motion_pt1': [ 62.82,   2.22,   0.01, -176.72, -96.61, 166.75],  # Sweep right along table
-            # 'motion_pt2': [117.30,   2.22,   0.01, -176.72, -96.61, 166.75],  # Sweep left along table
+            'work_point': [ 89.07,   1.7,   1.95, -182.16, -96.4, 282.35],  # Touch-down on table
+            # 'motion_pt1': [ 62.82,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep right along table
+            # 'motion_pt2': [117.30,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep left along table
+            'motion_pt1': [ 62.82,   2.22,   0.01, -176.72, -96.61, 282.35],  # Sweep right along table
+            'motion_pt2': [117.30,   2.22,   0.01, -176.72, -96.61, 282.35],  # Sweep left along table
             # 'motion_pt3': [-17.66, -73.09, 121.40, -231.08, -92.83, 181.31],  # Hover over collection box
-            'motion_pt3': [-17.66, -75.96, 85.00, -197.75, -80.77, 192.74],  # Hover over collection box
+            'hover_over_box': [-37.23,-77.44,87.32,-193.87,-63.46,282.35],  # Hover over collection box
+            'hover_over_box_2': [-33.72,-52.45,105.97,-246.43,-51.14,279.17],  # Hover over box just before scoop
             # 'motion_pt6': [-17.74, -76.03, 122.21, -150.27, -92.92, 181.31],  # Begin scoop approach
             # 'scoop':      [-11.11, -60.74, 124.15, -194.51, -92.74, 174.65],  # Scoop beads
-            'motion_pt7': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
-            'motion_pt8': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
-            'work_safe_2':  [ 84.32, -40.01,  44.64, -194.52, -92.74, 174.65],  # Hover above table
-            'motion_pt4': [ 72.91, -63.50, 101.99, -217.47, -92.74,  98.49],  # Dump beads
+            'motion_pt6': [-33.27,-48.98,106.98,-246.14,-51.12,195.04],  # Begin scoop approach
+            # 'motion_pt7': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
+            # 'motion_pt8': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
+            'scoop':      [-37.20, -44.98, 106.79, -245.51, -51.16, 237.67],  # Scoop beads
+            'scoop_done_safe': [-37.21, -44.98, 106.79, -245.50, -51.16, 282.50],  # Safe hover after scoop
+            'work_safe_2':  [ 84.32, -40.01,  44.64, -194.52, -92.74, 282.35],  # Hover above table
+            'dump_pre_table': [ 75.80, -51.39,  86.01, -214.61, -63.46, 282.35],  # Hover above table ready to dump
+            'dumpping_balls': [ 76.16, -50.42,  86.06, -216.78, -63.44, 190.56],  # Dump beads over table
+            'dump_done': [ 36.82, -91.00,  86.03, -196.63, -72.45, 181.56],  # Safe hover after dump
+            # 'motion_pt4': [ 72.91, -63.50, 101.99, -217.47, -92.74,  98.49],  # Dump beads
         }
 
         # ── Constant Z heights used for IK targets ─────────────────────
@@ -665,23 +673,29 @@ class DualMopControlSystem(Node):
         # verifying collision-free paths on the real robot.
         sequence = [
             ('home_rest',  t['home_rest']),   # 1. Move to safe home position
-            ('work_safe',  t['work_safe']),   # 2. Hover above the table surface
-            ('work_point', t['work_point']),  # 3. Lower end-effector to table
-            ('motion_pt1', t['motion_pt1']),  # 4. Sweep right to gather beads
-            ('motion_pt2', t['motion_pt2']),  # 5. Sweep left to gather beads
-            ('motion_pt3', t['motion_pt3']),  # 6. Hover over collection box
-            # ('motion_pt6', t['motion_pt6']),  # 7. Begin scoop approach
-            # ('scoop',      t['scoop']),       # 8. Scoop beads into end-effector
-            ('motion_pt7', t['motion_pt7']),  # 9. Lift and carry beads to table
-            ('motion_pt8', t['motion_pt8']),  # 10. Hold position over table
-            ('work_safe_2', t['work_safe_2']),  # 11. Hover above table surface
-            ('motion_pt4', t['motion_pt4']),  # 12. Tip and dump beads
-            ('home_rest',  t['home_rest']),   # 13. Return to safe home position
+            ('home_rest_safe', t['home_rest_safe']),   # 2. Move to safe home position
+            ('work_safe',  t['work_safe']),   # 3. Hover above the table surface
+            ('work_point', t['work_point']),  # 4. Lower end-effector to table
+            ('motion_pt1', t['motion_pt1']),  # 5. Sweep right to gather beads
+            ('motion_pt2', t['motion_pt2']),  # 6. Sweep left to gather beads
+            ('hover_over_box', t['hover_over_box']),  # 7. Hover over collection box
+            ('hover_over_box_2', t['hover_over_box_2']),  # 8. Hover over box just before scoop
+            ('motion_pt6', t['motion_pt6']),  # 9. Begin scoop approach
+            ('scoop',      t['scoop']),       # 10. Scoop beads into end-effector
+            ('scoop_done_safe', t['scoop_done_safe']),  # 11. Safe hover after scoop
+            ('home_rest_safe', t['home_rest_safe']),  # 12. Return to safe home position after scoop
+            
+            ('dump_pre_table', t['dump_pre_table']),  # 13. Hover above table ready to dump
+            ('dumpping_balls', t['dumpping_balls']),  # 14. Dump beads over table
+            ('dump_done', t['dump_done']),  # 15. Safe hover after dump
+            ('home_rest_safe', t['home_rest_safe']),  # 16. Return to safe home position after dump
+            ('home_rest',  t['home_rest']),   # 17. Return to safe home position
         ]
 
         # Absolute time stamps (seconds from trajectory start) for each waypoint.
         # 5-second spacing gives the controller sufficient time between poses.
         time_steps = [5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0]
+        time_steps = [(i + 1) * 5.0 for i in range(len(sequence))]  # [5.0, 10.0, ..., 80.0]
 
         # Create the FollowJointTrajectory goal message
         goal_msg = FollowJointTrajectory.Goal()
