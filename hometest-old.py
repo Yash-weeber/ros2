@@ -68,9 +68,13 @@ class DualMopControlSystem(Node):
         self.ik_client = self.create_client(GetPositionIK, '/compute_ik')
 
         # Publisher: sends JointTrajectory commands to Robot 1's controller
+        # self.ur1_pub = self.create_publisher(
+        #     JointTrajectory,
+        #     '/scaled_joint_trajectory_controller/joint_trajectory',
+        #     10)   # queue depth of 10
         self.ur1_pub = self.create_publisher(
             JointTrajectory,
-            '/scaled_joint_trajectory_controller/joint_trajectory',
+            '/joint_trajectory_controller/joint_trajectory',
             10)   # queue depth of 10
 
         # Publisher: sends JointTrajectory commands to Robot 2's controller
@@ -425,9 +429,17 @@ class DualMopControlSystem(Node):
         target.pose.position.x  = x
         target.pose.position.y  = y
         target.pose.position.z  = z
-        target.pose.orientation.x = 1.0         # Quaternion (1,0,0,0) = tool pointing downward
-        target.pose.orientation.w = 0.0
+        angle = math.radians(70)               # 70° → radians
+        # target.pose.orientation.x = math.sin(angle / 2)   # ≈ 0.5736
+        # target.pose.orientation.y = 0.0
+        # target.pose.orientation.z = 0.0
+        # target.pose.orientation.w = math.cos(angle / 2)   # ≈ 0.8192
+        target.pose.orientation.x = 0.97611 # 0.9988
+        target.pose.orientation.y = -0.030738 # -0.03325
+        target.pose.orientation.z = -0.016869 # -0.010995
+        target.pose.orientation.w = 0.21443 # 0.03412
         req.ik_request.pose_stamped = target
+        # 0.97611; -0.030738; -0.016869; 0.21443
 
         # Send the request asynchronously (non-blocking call)
         future = self.ik_client.call_async(req)

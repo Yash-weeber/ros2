@@ -33,8 +33,8 @@ def resample_trajectory(iter):
     # 3. Define requested boundaries
     SAFE_MIN_X = -0.3
     SAFE_MAX_X = 0.3
-    SAFE_MIN_Y = -0.8
-    SAFE_MAX_Y = -0.41
+    SAFE_MIN_Y = -0.87
+    SAFE_MAX_Y = -0.47
 
     x_low, x_high = min(SAFE_MIN_X, SAFE_MAX_X), max(SAFE_MIN_X, SAFE_MAX_X)
     y_low, y_high = min(SAFE_MIN_Y, SAFE_MAX_Y), max(SAFE_MIN_Y, SAFE_MAX_Y)
