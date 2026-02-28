@@ -14,7 +14,7 @@ def resample_trajectory(iter):
 
     df = pd.read_csv(input_csv, dtype={'iter': str, 'step': str, 'timestamp': str})
     df = df[df['iter'] == iter].copy()
-    df = df.iloc[::20]
+    df = df.iloc[::10]
 
     if df.empty:
         print("CSV is empty!")

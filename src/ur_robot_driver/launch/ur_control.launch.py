@@ -195,6 +195,7 @@ def launch_setup(context):
         "force_torque_sensor_broadcaster",
         "tcp_pose_broadcaster",
         "ur_configuration_controller",
+        "ur_2_controller",
     ]
     controllers_inactive = [
         "scaled_joint_trajectory_controller",
@@ -361,6 +362,7 @@ def generate_launch_description():
             default_value="scaled_joint_trajectory_controller",
             choices=[
                 "scaled_joint_trajectory_controller",
+                # "ur_2_controller",
                 "joint_trajectory_controller",
                 "forward_velocity_controller",
                 "forward_position_controller",
