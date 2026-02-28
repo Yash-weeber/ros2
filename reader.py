@@ -39,36 +39,55 @@ class UR2MotionExecutor(Node):
 
 
 
-        home_rest_deg = [-16.57, -71.79, 127.75, -230.10, -86.40, 192.74]   #2.89530, -0.96376, 0.98408, -3.08301, -1.68612, 2.91085
+        home_rest_deg =   [-37.32,-51.07,99.88,-245.13,-66.17,268.34]#[-16.57, -71.79, 127.75, -230.10, -86.40, 192.74]   #2.89530, -0.96376, 0.98408, -3.08301, -1.68612, 2.91085
         #[165.85, -55.20, 56.40, -176.72, -96.61, 166.75] #[2.89530,−0.96376,0.98408,−3.08301,−1.68612,2.91085]
-        work_point_deg = [88.82,2.22,0.01,-176.72,-96.61,166.75] #[1.55057,0.03874,0.00017,−3.08301,−1.68612,2.91085]
-        motion_pt1_deg = [62.82,2.22,0.01,-176.72,-96.61,166.75] #[1.09622,0.03874,0.00017,−3.08301,−1.68612,2.91085]
-        motion_pt2_deg = [117.3,2.22,0.01,-176.72,-96.61,166.75] #[2.04730,0.03874,0.00017,−3.08301,−1.68612,2.91085]
+        home_rest_safe_deg = [-36.81,-79.65,68.67,-183.56,-91.73,267.84]
+        work_point_deg = [88.82,2.22,0.01,-176.72,-96.61,268.34] #[1.55057,0.03874,0.00017,−3.08301,−1.68612,2.91085]
+        motion_pt1_deg = [62.82,2.22,0.01,-176.72,-96.61,268.34] #[1.09622,0.03874,0.00017,−3.08301,−1.68612,2.91085]
+        motion_pt2_deg = [117.3,2.22,0.01,-176.72,-96.61,268.34] #[2.04730,0.03874,0.00017,−3.08301,−1.68612,2.91085]
         motion_pt3_deg = [-17.66, -73.09, 121.40, -231.08, -92.83, 181.31]# [-0.3083, -1.2760, 2.1188, -4.0330, -1.6203, 3.1644]
+        hover_over_box =[-37.23,-77.44,87.32,-193.87,-63.46,282.35]
+        hover_over_box_2 =[-33.72,-52.45,105.97,-246.43,-51.14,279.17]
 
-        motion_pt4_deg = [72.91, -63.50, 101.99, -217.47, -92.74, 98.49]# [1.2726, -1.1083, 1.7802, -3.7961, -1.6188, 1.7191]
 
-        motion_pt6_deg = [-17.74, -76.03, 122.21, -150.27, -92.92, 181.31]# [-0.3097, -1.3274, 2.1329, -2.6228, -1.6219, 3.1644]
+        motion_pt4_deg =  [76.16,-50.42,86.06,-216.78,-63.441,181.56]#[72.91, -63.50, 101.99, -217.47, -92.74, 98.49]# [1.2726, -1.1083, 1.7802, -3.7961, -1.6188, 1.7191]
+
+        motion_pt6_deg = [-33.27,-48.98,106.98,-246.14,-51.12,195.04]# [-0.3097, -1.3274, 2.1329, -2.6228, -1.6219, 3.1644]
         motion_pt7_deg = [33.27, -75.79, 95.34, -212.50, -95.39, 179.87]# [0.5808, -1.3232, 1.6641, -3.7093, -1.6648, 3.1393]
-        scoop_deg =[-11.11, -60.74, 124.15, -194.51, -92.74, 174.65]# [-0.1939, -1.0602, 2.1673, -3.3954, -1.6188, 3.0481]
-        work_safe_deg =[84.32, -40.01, 44.64, -194.52, -92.74, 174.65]# [1.4718, -0.6983, 0.7792, -3.3956, -1.6188, 3.0481]
+        scoop_deg =[-37.20,-44.98,106.79,-245.51,-51.16,237.67]# [-0.1939, -1.0602, 2.1673, -3.3954, -1.6188, 3.0481]
+        scoop_done_safe_deg =[-37.21,-44.98,106.79,-245.50,-51.16,282.50]
+        dump_pre_table =[75.80,-51.39,86.01,-214.61,-63.46,282.35]
+        dumpping_balls = [76.16,-50.42,86.06,-216.78,-63.44,190.56]
+        dump_done=[36.82,-91.00,86.03,-196.63,-72.45,181.56]
+        work_safe_deg =[84.32, -40.01, 44.64, -194.52, -92.74, 268.34]# [1.4718, -0.6983, 0.7792, -3.3956, -1.6188, 3.0481]
 
 
 
         # Convert to radians
         points_rad = [
             self.deg_to_rad(home_rest_deg),#same side home
+            self.deg_to_rad(home_rest_safe_deg), #safe hover the home
             self.deg_to_rad(work_safe_deg),#hover over the table
             self.deg_to_rad(work_point_deg),#at the table touching
             self.deg_to_rad(motion_pt1_deg),#move right first for sweep
             self.deg_to_rad(motion_pt2_deg),#moves left for second sweep
-            self.deg_to_rad(motion_pt3_deg),#hover over box
+            self.deg_to_rad(hover_over_box),#hover over box
+            self.deg_to_rad(hover_over_box_2),#hover over the box just before scoop
 
 
             self.deg_to_rad(motion_pt6_deg),#scoops in start
             self.deg_to_rad(scoop_deg),#scoops the beads
-            self.deg_to_rad(motion_pt7_deg),# goes over table
-            self.deg_to_rad(motion_pt4_deg),# dumps the beads
+            self.deg_to_rad(scoop_done_safe_deg),#scoop is done and hover over the box
+            self.deg_to_rad(home_rest_safe_deg),  # safe hover the home
+
+            self.deg_to_rad(dump_pre_table),#holds the beads over the box  and moves to table holding it
+            self.deg_to_rad(dumpping_balls),##dumps over table as close to as possible
+            self.deg_to_rad(dump_done),#dump is done
+            self.deg_to_rad(home_rest_safe_deg),  # safe hover the home
+
+            # self.deg_to_rad(motion_pt7_deg),# goes over table
+            # self.deg_to_rad(work_safe_deg),  # hover over the table
+            # self.deg_to_rad(motion_pt4_deg),# dumps the beads
 
 
 
@@ -79,7 +98,8 @@ class UR2MotionExecutor(Node):
 
         # Time durations (in seconds) for each point from the start
         # Adjust these to make the robot move faster or slower!
-        time_from_start = [5.0,10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0,55.0]
+        time_from_start = [(i + 1) * 5.0 for i in range(len(points_rad))]
+        # time_from_start = [5.0,10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0,55.0,60.0,65.0,70,75,80]
 
         # Build the trajectory points
         for i, angles in enumerate(points_rad):
