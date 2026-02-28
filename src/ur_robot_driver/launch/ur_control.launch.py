@@ -199,9 +199,9 @@ def launch_setup(context):
     controllers_inactive = [
         "scaled_joint_trajectory_controller",
         "joint_trajectory_controller",
-        "forward_velocity_controller",
-        "forward_position_controller",
-        "forward_effort_controller",
+        # "forward_velocity_controller",
+        # "forward_position_controller",
+        # "forward_effort_controller",
         "force_mode_controller",
         "passthrough_trajectory_controller",
         "freedrive_mode_controller",

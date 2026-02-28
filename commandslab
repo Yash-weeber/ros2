@@ -1,8 +1,14 @@
+source /opt/ros/jazzy/setup.bash 
+source install/setup.bash
+
+
 t1
 colcon build --packages-select ur_description ur_moveit_config --allow-overriding ur_description ur_moveit_config
 source install/setup.bash
 export ROS_DOMAIN_ID=42
-ros2 launch ur_description cleaning_session.launch.py
+ros2 launch ur_description cleaning_session.launch.py use_sim_time:=true
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5 use_sim_time:=true
+
 
 
 
@@ -83,6 +89,7 @@ ros2 action send_goal \
                           time_from_start: {sec: 5}}]}}'
 
 
-ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5 robot_ip:=192.168.1.102 launch_rviz:=false
+ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5 launch_rviz:=true
+ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5 use_sim_time:=false
 ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5 robot_ip:=192.168.1.102 launch_rviz:=true
 ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py robot_ip:=192.168.1.102 use_fake_hardware:=false

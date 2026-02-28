@@ -11,6 +11,8 @@ import numpy as np
 import time
 import threading
 from moveit_msgs.msg import MoveItErrorCodes
+import argparse
+import math
 
 
 class DualMopControlSystem(Node):
@@ -19,28 +21,28 @@ class DualMopControlSystem(Node):
 
         # Clients & Publishers
         self.ik_client = self.create_client(GetPositionIK, '/compute_ik')
+        if not self.ik_client.wait_for_service(timeout_sec=10.0):
+            raise RuntimeError("/compute_ik service not available")
+
         self.ur1_pub = self.create_publisher(JointTrajectory, '/joint_trajectory_controller/joint_trajectory', 10)
         self.ur2_pub = self.create_publisher(JointTrajectory, '/ur_2_controller/joint_trajectory', 10)
         self.joint_sub = self.create_subscription(JointState, '/joint_states', self.joint_cb, 10)
 
         # Joint Lists
-        self.ur1_joints = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint',
-                           'wrist_3_joint']
-        self.ur2_joints = ['ur_2_shoulder_pan_joint', 'ur_2_shoulder_lift_joint', 'ur_2_elbow_joint',
-                           'ur_2_wrist_1_joint', 'ur_2_wrist_2_joint', 'ur_2_wrist_3_joint']
+        self.ur1_joints = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
+        self.ur2_joints = ['ur_2_shoulder_pan_joint', 'ur_2_shoulder_lift_joint', 'ur_2_elbow_joint', 'ur_2_wrist_1_joint', 'ur_2_wrist_2_joint', 'ur_2_wrist_3_joint']
+
+        self.robot_cfg = {
+            1: {"group": "ur_manipulator", "ik_links": ["mop_tip", "tool0"], "joints": self.ur1_joints, "z": 0.65},
+            2: {"group": "ur_2_manipulator", "ik_links": ["ur_2_tool0"], "joints": self.ur2_joints, "z": 1.0},
+        }
 
         # Poses
-        # self.home_pose = [1.624-3.14, -0.895, 0.889, -1.359, -1.425, 0.00]
-        self.home_pose = [148/180 * np.pi, -101/180 * np.pi, -113/180 * np.pi, -5.7/180 * np.pi, 72.58/180 * np.pi, 219.5/180 * np.pi]
-        # self.home_pose  = [-1.500063721333639, -2.2403162161456507, 2.4708008766174316, -0.12481147447694951, 1.21921968460083, 3.2130491733551025]
-
-
-        
-        self.zero_pose = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-
-        # Heights
-        self.ur1_const_z, self.ur1_hover_z = 1.013, 0.75
-        self.ur2_const_z, self.ur2_hover_z = 1.0, 1.1
+        rest_qs = [13.53, -57.08, 64.66, -144.75, -88.89, 28.75]
+        home_qs = [-65, -74, 138, -174, -82, 0]
+        # self.home_pose = [148/180*np.pi, -101/180*np.pi, -113/180*np.pi, -5.7/180*np.pi, 72.58/180*np.pi, 219.5/180*np.pi]
+        self.home_pose = [q * np.pi / 180 for q in home_qs]
+        self.zero_pose = [q * np.pi / 180 for q in rest_qs]
 
         self.current_joints_1 = None
         self.current_joints_2 = None
@@ -71,75 +73,132 @@ class DualMopControlSystem(Node):
         src = dict(zip(source_names, source_positions))
         return [src[name] for name in target_names]
 
+    def _nearest_equivalent(self, ref, target):
+        """Map target angle to equivalent closest to ref (prevents big wraps)."""
+        while target - ref > math.pi:
+            target -= 2.0 * math.pi
+        while target - ref < -math.pi:
+            target += 2.0 * math.pi
+        return target
+
+    def _get_seed(self, robot_id):
+        return self.current_joints_1 if robot_id == 1 else self.current_joints_2
+
     def get_ik(self, x, y, z, seed, robot_id=1):
-        """Requests IK using a manual check on future.done() to avoid Executor errors."""
         if seed is None:
             return None
 
-        req = GetPositionIK.Request()
-        req.ik_request.avoid_collisions = True
-
-        if robot_id == 1:
-            req.ik_request.group_name, req.ik_request.ik_link_name = "ur_manipulator", "mop_tip"
-            req.ik_request.robot_state.joint_state.name = self.ur1_joints
-            controller_joint_order = self.ur1_joints
-        else:
-            req.ik_request.group_name, req.ik_request.ik_link_name = "ur_2_manipulator", "ur_2_tool0"
-            req.ik_request.robot_state.joint_state.name = self.ur2_joints
-            controller_joint_order = self.ur2_joints
-
-        req.ik_request.robot_state.joint_state.position = seed
-
+        cfg = self.robot_cfg[robot_id]
         target = PoseStamped()
         target.header.frame_id = "world"
         target.pose.position.x, target.pose.position.y, target.pose.position.z = x, y, z
-        target.pose.orientation.x, target.pose.orientation.w = 1.0, 0.0
-        req.ik_request.pose_stamped = target
+        target.pose.orientation.x = 0.0
+        target.pose.orientation.y = 0.0
+        target.pose.orientation.z = 0.0
+        target.pose.orientation.w = 1.0
 
-        future = self.ik_client.call_async(req)
+        for ik_link in cfg["ik_links"]:
+            req = GetPositionIK.Request()
+            req.ik_request.group_name = cfg["group"]
+            req.ik_request.ik_link_name = ik_link
+            req.ik_request.avoid_collisions = True
+            req.ik_request.timeout.sec = 1
+            req.ik_request.robot_state.joint_state.name = cfg["joints"]
+            req.ik_request.robot_state.joint_state.position = seed
+            req.ik_request.pose_stamped = target
 
-        start_wait = time.time()
-        while not future.done():
-            time.sleep(0.01)
-            if time.time() - start_wait > 2.0:
-                self.get_logger().error("IK Service Timeout!")
-                return None
+            future = self.ik_client.call_async(req)
+            start_wait = time.time()
+            while not future.done():
+                time.sleep(0.01)
+                if time.time() - start_wait > 3.0:
+                    self.get_logger().error(f"IK timeout (robot={robot_id}, link={ik_link})")
+                    break
 
-        res = future.result()
-        if res is None:
-            self.get_logger().error("IK response is None")
-            return None
+            if not future.done():
+                continue
 
-        if res.error_code.val != MoveItErrorCodes.SUCCESS:
-            self.get_logger().error(
-                f"IK failed. robot_id={robot_id}, group={req.ik_request.group_name}, "
-                f"link={req.ik_request.ik_link_name}, frame={target.header.frame_id}, "
-                f"error_code={res.error_code.val}"
-            )
-            return None
+            res = future.result()
+            if not res:
+                continue
 
-        names = list(res.solution.joint_state.name)
-        positions = list(res.solution.joint_state.position)
-        try:
-            return self._reorder_positions(controller_joint_order, names, positions)
-        except KeyError as e:
-            self.get_logger().error(f"IK result missing joint: {e}")
-            return None
+            if res.error_code.val == MoveItErrorCodes.SUCCESS:
+                names = list(res.solution.joint_state.name)
+                positions = list(res.solution.joint_state.position)
+                try:
+                    ordered = self._reorder_positions(cfg["joints"], names, positions)
+                    return [self._nearest_equivalent(seed[i], ordered[i]) for i in range(len(ordered))]
+                except KeyError as e:
+                    self.get_logger().error(f"IK missing joint: {e}")
+                    return None
+
+        self.get_logger().error(
+            f"IK failed. robot_id={robot_id}, group={cfg['group']}, frame=world, code=NO_IK_SOLUTION"
+        )
         return None
 
-    def move_to_joints(self, joint_goal, robot_id=1, duration=3.0):
-        """Publish trajectory with strict controller joint ordering."""
-        controller_joint_names = self.ur1_joints if robot_id == 1 else self.ur2_joints
+    def load_cartesian_points_from_csv(self, csv_path):
+        pts = []
+        with open(csv_path, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                pts.append({
+                    "x": float(row["x"]),
+                    "y": float(row["y"]),
+                    "z": float(row["z"]) if "z" in row and row["z"] != "" else None
+                })
+        return pts
 
-        if not isinstance(joint_goal, (list, tuple)) or len(joint_goal) != len(controller_joint_names):
+    def execute_cartesian_points(self, robot_id, points, dt=0.2):
+        cfg = self.robot_cfg[robot_id]
+        seed = self._get_seed(robot_id)
+        if seed is None:
+            self.get_logger().error("No joint state seed yet.")
+            return
+
+        traj = JointTrajectory()
+        traj.joint_names = cfg["joints"]
+
+        t = dt
+        valid = 0
+        for p in points:
+            z = cfg["z"] if p["z"] is None else p["z"]
+            sol = self.get_ik(p["x"], p["y"], z, seed, robot_id)
+            if sol is None:
+                continue
+            pt = JointTrajectoryPoint()
+            pt.positions = sol
+            pt.time_from_start = Duration(seconds=t).to_msg()
+            traj.points.append(pt)
+            seed = sol
+            t += dt
+            valid += 1
+
+        if valid == 0:
+            self.get_logger().error("No valid IK points to execute.")
+            return
+
+        if robot_id == 1:
+            self.ur1_pub.publish(traj)
+        else:
+            self.ur2_pub.publish(traj)
+
+        time.sleep(valid * dt + 1.0)
+
+    def move_to_joints(self, joint_goal, robot_id=1, duration=3.0):
+        """Send a single joint-space target in controller joint order."""
+        cfg = self.robot_cfg[robot_id]
+        joint_names = cfg["joints"]
+
+        if not isinstance(joint_goal, (list, tuple)) or len(joint_goal) != len(joint_names):
             self.get_logger().error(
-                f"Invalid joint_goal for robot {robot_id}. "
-                f"Expected {len(controller_joint_names)} values in controller order: {controller_joint_names}"
+                f"Invalid joint goal for robot {robot_id}: "
+                f"expected {len(joint_names)} values, got {len(joint_goal) if joint_goal is not None else 'None'}"
             )
             return
 
         msg = JointTrajectory()
-        msg.joint_names = controller_joint_names
+        msg.joint_names = joint_names
 
         pt = JointTrajectoryPoint()
         pt.positions = [float(v) for v in joint_goal]
@@ -153,101 +212,62 @@ class DualMopControlSystem(Node):
 
         time.sleep(duration + 0.1)
 
-    def run_robot_phase(self, robot_id):
-        """Handles the sequence for one robot then forces it to zero."""
+    def run_robot_phase(self, robot_id, mode="manual", csv_path=None):
         print(f"\n--- STARTING PHASE FOR ROBOT {robot_id} ---")
-
-        # Initial Home Move
         self.move_to_joints(self.home_pose, robot_id, duration=4.0)
 
-        print("1: Manual X/Y | 2: CSV Sequence")
-        choice = input(f"Selection for Robot {robot_id}: ")
-
-        if choice == '1':
+        if mode == "csv":
+            if not csv_path or not os.path.exists(csv_path):
+                self.get_logger().error(f"CSV not found: {csv_path}")
+                return
+            pts = self.load_cartesian_points_from_csv(csv_path)
+            self.execute_cartesian_points(robot_id, pts, dt=0.2)
+        else:
             while rclpy.ok():
-                inp = input(f"Robot {robot_id} Target (x y) or 'exit': ").split()
-                if not inp or inp[0].lower() == 'exit': break
+                inp = input(f"Robot {robot_id} target (x y [z]) or 'exit': ").strip()
+                if inp.lower() == "exit":
+                    break
                 try:
-                    x, y = float(inp[0]), float(inp[1])
-                    z = self.ur1_const_z if robot_id == 1 else self.ur2_const_z
-                    seed = self.current_joints_1 if robot_id == 1 else self.current_joints_2
+                    vals = [float(v) for v in inp.split()]
+                    if len(vals) < 2:
+                        continue
+                    x, y = vals[0], vals[1]
+                    z = vals[2] if len(vals) > 2 else self.robot_cfg[robot_id]["z"]
+                    seed = self._get_seed(robot_id)
                     sol = self.get_ik(x, y, z, seed, robot_id)
                     if sol:
-                        print(f"IK Success! Moving Robot {robot_id} to {x}, {y}...")
-                        self.move_to_joints(sol, robot_id)
-                    else:
-                        print("IK Failed for these coordinates.")
-                except:
-                    pass
+                        self.move_to_joints(sol, robot_id, duration=2.0)
+                except Exception as e:
+                    self.get_logger().error(f"Input parse error: {e}")
 
-        elif choice == '2':
-            csv_path = os.path
-            csv_path = os.path.expanduser('/mnt/sdc/GitHub/ros2/data/motion_safe.csv')
-            if not os.path.exists(csv_path):
-                print(f"Error: CSV file not found at {csv_path}")
-                return
-
-            points = []
-            # Start seed for CSV from the current position
-            last_seed = self.current_joints_1 if robot_id == 1 else self.current_joints_2
-            z_height = self.ur1_const_z if robot_id == 1 else self.ur2_const_z
-
-            print(f"Calculating (Baking) Trajectory for Robot {robot_id}...")
-            with open(csv_path, 'r') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    sol = self.get_ik(float(row['x']), float(row['y']), z_height, last_seed, robot_id)
-                    if sol:
-                        points.append(sol)
-                        last_seed = sol
-
-            if points:
-                print(f"Baking complete. Executing {len(points)} points...")
-                msg = JointTrajectory()
-                msg.joint_names = self.ur1_joints if robot_id == 1 else self.ur2_joints
-                for i, p in enumerate(points):
-                    msg.points.append(
-                        JointTrajectoryPoint(positions=p, time_from_start=Duration(seconds=(i + 1) * 0.2).to_msg()))
-
-                if robot_id == 1:
-                    self.ur1_pub.publish(msg)
-                else:
-                    self.ur2_pub.publish(msg)
-
-                # Wait for trajectory to finish
-                time.sleep(len(points) * 0.2 + 2.0)
-            else:
-                print("No valid IK solutions found in CSV.")
-
-        # END OF ACTIVITY: MANDATORY RETURN TO ZERO
-        print(f"Action Complete. Moving Robot {robot_id} to ZERO POSITION...")
+        print(f"Returning Robot {robot_id} to ZERO POSITION...")
         self.move_to_joints(self.zero_pose, robot_id, duration=5.0)
         self.verify_at_zero(robot_id)
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--robot", choices=["1", "2", "both"], default="1")
+    parser.add_argument("--mode", choices=["manual", "csv"], default="manual")
+    parser.add_argument("--csv", default="/mnt/sdc/GitHub/ros2/data/motion_safe.csv")
+    args = parser.parse_args()
+
     rclpy.init()
     node = DualMopControlSystem()
 
-    # Spin thread handles communication so get_ik future.done() works
     spin_thread = threading.Thread(target=rclpy.spin, args=(node,), daemon=True)
     spin_thread.start()
 
-    # Wait for joints to be populated
     while node.current_joints_1 is None or node.current_joints_2 is None:
         time.sleep(0.1)
 
-    # RELAY STEP 1: Robot 1 executes its manual or CSV sequence
-    node.run_robot_phase(robot_id=1)
+    if args.robot in ("1", "both"):
+        node.run_robot_phase(robot_id=1, mode=args.mode, csv_path=args.csv)
 
-    # RELAY STEP 2: Mandatory 6 second delay after R1 is verified at zero
-    print("Robot 1 is at Zero. Cooling down for 6 seconds...")
-    time.sleep(6.0)
-
-    # RELAY STEP 3: Robot 2 activates for its manual or CSV sequence
-    node.run_robot_phase(robot_id=2)
-
-    print("Relay sequence finished. Both robots verified at zero.")
+    if args.robot in ("2", "both"):
+        if args.robot == "both":
+            time.sleep(2.0)
+        node.run_robot_phase(robot_id=2, mode=args.mode, csv_path=args.csv)
 
     rclpy.shutdown()
     spin_thread.join()
