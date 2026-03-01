@@ -74,7 +74,7 @@ class DualMopControlSystem(Node):
         #     10)   # queue depth of 10
         self.ur1_pub = self.create_publisher(
             JointTrajectory,
-            '/joint_trajectory_controller/joint_trajectory',
+            '/scaled_joint_trajectory_controller/joint_trajectory',
             10)  # queue depth of 10
 
         # Publisher: sends JointTrajectory commands to Robot 2's controller
@@ -141,21 +141,24 @@ class DualMopControlSystem(Node):
             'home_rest_safe': [-36.81, -79.65, 68.67, -183.56, -91.73, 267.84],  # Safe start/end
             'work_safe': [84.32, -40.01, 44.64, -194.52, -92.74, 282.35],  # Hover above table
             # 'work_point': [ 88.82,   2.22,   0.01, -176.72, -96.61, 166.75],  # Touch-down on table
-            'work_point': [89.07, 1.7, 1.95, -182.16, -96.4, 282.35],  # Touch-down on table
+            # 'work_point': [89.07, 1.7, 1.95, -182.16, -96.4, 282.35],  # Touch-down on table
+            'work_point': [88.61, 1.99, 1.28, -192.43, -85.92, 268.33],  # Touch-down on table
             # 'motion_pt1': [ 62.82,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep right along table
             # 'motion_pt2': [117.30,   1.7,   1.95, -182.16, -96.4, 166.75],  # Sweep left along table
-            'motion_pt1': [62.82, 2.22, 0.01, -176.72, -96.61, 282.35],  # Sweep right along table
-            'motion_pt2': [117.30, 2.22, 0.01, -176.72, -96.61, 282.35],  # Sweep left along table
+            'motion_pt1': [62.82, 1.99, 1.28, -192.43, -85.92, 268.33],  # Sweep right along table
+            'motion_pt2': [117.30, 1.99, 1.28, -192.43, -85.92, 268.33],  # Sweep left along table
             # 'motion_pt3': [-17.66, -73.09, 121.40, -231.08, -92.83, 181.31],  # Hover over collection box
             'hover_over_box': [-37.23, -77.44, 87.32, -193.87, -63.46, 282.35],  # Hover over collection box
-            'hover_over_box_2': [-33.72, -52.45, 105.97, -246.43, -51.14, 279.17],  # Hover over box just before scoop
-            # 'motion_pt6': [-17.74, -76.03, 122.21, -150.27, -92.92, 181.31],  # Begin scoop approach
+            'hover_over_box_2': [-26.81, -51.16, 91.78, -216.24, -66.23, 268.84],  # Hover over box just before scoop
+            # 'scooping_motion_1': [-17.74, -76.03, 122.21, -150.27, -92.92, 181.31],  # Begin scoop approach
             # 'scoop':      [-11.11, -60.74, 124.15, -194.51, -92.74, 174.65],  # Scoop beads
-            'motion_pt6': [-33.27, -48.98, 106.98, -246.14, -51.12, 195.04],  # Begin scoop approach
+            'scooping_motion_1': [-21.93, -40.5, 94.7, -240.83, -70.60, 206.26],  # Begin scoop approach
+            'scooping_motion_2': [-22.00, -40.54, 94.71, -229.95, -70.61, 244.12],  # Begin scoop approach
+            'scooping_motion_3': [-22.38, -39.26, 92.49, -236.83, -71.08, 276.82],  # Begin scoop approach
             # 'motion_pt7': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
             # 'motion_pt8': [ 33.27, -75.79,  95.34, -212.50, -95.39, 179.87],  # Carry beads over table
-            'scoop': [-15,-61.45,126.78,-236.87,-98.61,171.68],  # Scoop beads
-            'scoop_done_safe': [-22.98,-61.43,132.58,-247.18,-96.47,254.43],  # Safe hover after scoop
+            'scoop': [-31.33, -46.40, 108.65, -253.71, -58.66, 287.85],  # Scoop beads
+            'scoop_done_safe': [-31.33, -64.10, 100.27, -219.36, -58.66, 287.85],  # Safe hover after scoop
             'work_safe_2': [84.32, -40.01, 44.64, -194.52, -92.74, 282.35],  # Hover above table
             'dump_pre_table': [75.80, -51.39, 86.01, -214.61, -63.46, 282.35],  # Hover above table ready to dump
             'dumpping_balls': [55.75,-45.37,80.79,-215.68,-83.03,179.10],#[76.16, -50.42, 86.06, -216.78, -63.44, 190.56],  # Dump beads over table
@@ -164,7 +167,7 @@ class DualMopControlSystem(Node):
         }
 
         # ── Constant Z heights used for IK targets ─────────────────────
-        self.ur1_const_z = 0.76  # Robot 1 mop tip height above floor (metres)
+        self.ur1_const_z = 0.762  # Robot 1 mop tip height above floor (metres)
         self.ur2_const_z = 1.0  # Robot 2 tool height above floor (metres)
 
         # ── Live joint state cache (populated by joint_cb) ─────────────
@@ -374,6 +377,92 @@ class DualMopControlSystem(Node):
               f"{max_attempts} attempts. Aborting phase.")
         return False  # Caller should handle this failure
 
+    def move_to_joints(self, joint_goal, robot_id=1, duration=3.0):
+        """
+        Publish a single-point JointTrajectory command to move a robot
+        to a target joint configuration.
+
+        The function blocks for ``duration + 0.1`` seconds after publishing
+        so the caller can treat it as a synchronous move.
+
+        Parameters
+        ----------
+        joint_goal : list[float]
+            Target joint angles in radians.  Length must equal 6.
+        robot_id : int, optional
+            1 = Robot 1, 2 = Robot 2.  Defaults to 1.
+        duration : float, optional
+            Time (seconds) the controller should take to reach the goal.
+            Defaults to 3.0 s.
+        """
+        # Select the correct joint name list for this robot
+        joint_names = self.ur1_joints if robot_id == 1 else self.ur2_joints
+
+        # Validate that we have the right number of joint values
+        if len(joint_goal) != len(joint_names):
+            self.get_logger().error(
+                f"Joint goal length mismatch for robot {robot_id}.")
+            return  # Abort — publishing a malformed message could damage hardware
+
+        # Build the JointTrajectory message
+        msg = JointTrajectory()
+        msg.joint_names = joint_names  # Tell the controller which joints to move
+
+        # Create a single trajectory point representing the final target
+        pt = JointTrajectoryPoint()
+        pt.positions = [float(v) for v in joint_goal]  # Target joint angles
+        pt.time_from_start = Duration(seconds=duration).to_msg()  # Arrival time
+        msg.points.append(pt)  # Only one point — move directly to goal
+
+        # Select the correct publisher and send the message
+        publisher = self.ur1_pub if robot_id == 1 else self.ur2_pub
+        publisher.publish(msg)
+
+        # Block until the motion should be complete (duration + small buffer)
+        time.sleep(duration + 0.1)
+
+    def move_to_joints_verified(self, joint_goal, robot_id, duration=5.0,
+                                 tolerance=0.05, timeout=15.0, max_attempts=3):
+        """
+        Send a robot to a joint goal and block until it is physically
+        confirmed at that pose. Retries up to max_attempts times.
+
+        Parameters
+        ----------
+        joint_goal : list[float]
+            Target joint angles in radians.
+        robot_id : int
+            1 for Robot 1, 2 for Robot 2.
+        duration : float
+            Time (seconds) for the controller to complete the move.
+        tolerance : float
+            Per-joint angular tolerance in radians for confirmation.
+        timeout : float
+            Seconds to wait for confirmation per attempt.
+        max_attempts : int
+            Number of retries before giving up.
+
+        Returns
+        -------
+        bool
+            True if pose was confirmed, False if all attempts failed.
+        """
+        for attempt in range(1, max_attempts + 1):
+            self.move_to_joints(joint_goal, robot_id=robot_id, duration=duration)
+
+            # Poll until confirmed or timeout
+            deadline = time.time() + timeout
+            while time.time() < deadline:
+                if self.is_at_pose(joint_goal, robot_id, tolerance=tolerance):
+                    return True   # Pose confirmed — safe to continue
+                time.sleep(0.1)
+
+            print(f"  [WARN] Pose not confirmed within {timeout}s "
+                  f"(attempt {attempt}/{max_attempts}) — retrying...")
+
+        print(f"  [ERROR] Failed to confirm pose after {max_attempts} attempts.")
+        return False
+
     # ──────────────────────────────────────────────────────────────────
     # Robot 1 — IK-based Motion
     # ──────────────────────────────────────────────────────────────────
@@ -481,50 +570,10 @@ class DualMopControlSystem(Node):
             # A required joint was absent from the IK solution
             self.get_logger().error(f"IK result missing joint: {e}")
             return None
-
-    def move_to_joints(self, joint_goal, robot_id=1, duration=3.0):
-        """
-        Publish a single-point JointTrajectory command to move a robot
-        to a target joint configuration.
-
-        The function blocks for ``duration + 0.1`` seconds after publishing
-        so the caller can treat it as a synchronous move.
-
-        Parameters
-        ----------
-        joint_goal : list[float]
-            Target joint angles in radians.  Length must equal 6.
-        robot_id : int, optional
-            1 = Robot 1, 2 = Robot 2.  Defaults to 1.
-        duration : float, optional
-            Time (seconds) the controller should take to reach the goal.
-            Defaults to 3.0 s.
-        """
-        # Select the correct joint name list for this robot
-        joint_names = self.ur1_joints if robot_id == 1 else self.ur2_joints
-
-        # Validate that we have the right number of joint values
-        if len(joint_goal) != len(joint_names):
-            self.get_logger().error(
-                f"Joint goal length mismatch for robot {robot_id}.")
-            return  # Abort — publishing a malformed message could damage hardware
-
-        # Build the JointTrajectory message
-        msg = JointTrajectory()
-        msg.joint_names = joint_names  # Tell the controller which joints to move
-
-        # Create a single trajectory point representing the final target
-        pt = JointTrajectoryPoint()
-        pt.positions = [float(v) for v in joint_goal]  # Target joint angles
-        pt.time_from_start = Duration(seconds=duration).to_msg()  # Arrival time
-        msg.points.append(pt)  # Only one point — move directly to goal
-
-        # Select the correct publisher and send the message
-        publisher = self.ur1_pub if robot_id == 1 else self.ur2_pub
-        publisher.publish(msg)
-
-        # Block until the motion should be complete (duration + small buffer)
-        time.sleep(duration + 0.1)
+        
+    # ──────────────────────────────────────────────────────────────────
+    # Robot 1 — IK-based Motion Phase
+    # ──────────────────────────────────────────────────────────────────
 
     def run_robot1_phase(self):
         """
@@ -544,10 +593,10 @@ class DualMopControlSystem(Node):
         print("\n--- STARTING PHASE FOR ROBOT 1 ---")
 
         # ── Verified home move ─────────────────────────────────────────
-        # Unlike a plain move_to_joints call, this blocks until the robot
-        # is physically confirmed at the home pose before the IK phase starts.
-        # If home cannot be confirmed after max_attempts, the phase is aborted
-        # to prevent running the trajectory from an unknown start position.
+        # Blocks until Robot 1 is physically confirmed at the home pose
+        # before the IK phase starts. If home cannot be confirmed after
+        # max_attempts, the phase is aborted to prevent running the
+        # trajectory from an unknown start position.
         if not self.move_to_home_verified(robot_id=1):
             print("[ABORT] Robot 1 could not reach home. Skipping IK phase.")
             # Still return to rest so Robot 2 can start safely
@@ -560,7 +609,7 @@ class DualMopControlSystem(Node):
         choice = input("Selection for Robot 1: ").strip()
 
         if choice == '1':
-            # ── Interactive mode ──────────────────────────────────────
+            # ── Interactive mode ───────────────────────────────────────
             while rclpy.ok():
                 inp = input("Robot 1 Target (x y) or 'exit': ").split()
 
@@ -569,47 +618,47 @@ class DualMopControlSystem(Node):
                     break
 
                 try:
-                    x, y = float(inp[0]), float(inp[1])  # Parse X and Y from user input
+                    x, y = float(inp[0]), float(inp[1])   # Parse X and Y from user input
 
                     # Solve IK for this target at the constant mopping height
                     sol = self.get_ik(
                         x, y, self.ur1_const_z,
-                        self.current_joints_1,  # Use current pose as IK seed
+                        self.current_joints_1,            # Use current pose as IK seed
                         robot_id=1)
 
                     if sol:
                         print(f"IK Success! Moving to ({x}, {y})...")
-                        self.move_to_joints(sol, robot_id=1)  # Execute the move
+                        self.move_to_joints(sol, robot_id=1)   # Execute the move
                     else:
-                        print("IK Failed for these coordinates.")  # No valid solution found
+                        print("IK Failed for these coordinates.")
 
                 except (ValueError, IndexError):
-                    print("Invalid input — enter two numbers.")  # Non-numeric input guard
+                    print("Invalid input — enter two numbers.")
 
         elif choice == '2':
-            # ── CSV trajectory mode ───────────────────────────────────
+            # ── CSV trajectory mode ────────────────────────────────────
             csv_path = '/mnt/sdc/GitHub/ros2/data/motion_safe.csv'
 
             if not os.path.exists(csv_path):
                 print(f"Error: CSV not found at {csv_path}")
             else:
-                points = []  # Accumulates valid IK solutions
-                last_seed = self.current_joints_1  # Seed first IK with current joints
+                points    = []                           # Accumulates valid IK solutions
+                last_seed = self.current_joints_1        # Seed first IK with current joints
 
                 print("Baking trajectory for Robot 1...")
 
                 with open(csv_path, 'r') as f:
-                    for row in csv.DictReader(f):  # Iterate over each CSV row
+                    for row in csv.DictReader(f):        # Iterate over each CSV row
                         sol = self.get_ik(
-                            float(row['x']),  # Target X from CSV
-                            float(row['y']),  # Target Y from CSV
-                            self.ur1_const_z,  # Constant mopping height
-                            last_seed,  # Warm-start seed from previous solution
+                            float(row['x']),             # Target X from CSV
+                            float(row['y']),             # Target Y from CSV
+                            self.ur1_const_z,            # Constant mopping height
+                            last_seed,                   # Warm-start seed from previous solution
                             robot_id=1)
 
                         if sol:
-                            points.append(sol)  # Store valid solution
-                            last_seed = sol  # Use this solution as seed for next point
+                            points.append(sol)           # Store valid solution
+                            last_seed = sol              # Use this solution as seed for next point
                         # Rows with no IK solution are silently skipped
 
                 if points:
@@ -625,7 +674,7 @@ class DualMopControlSystem(Node):
                             positions=p,
                             time_from_start=Duration(seconds=(i + 1) * 0.2).to_msg()))
 
-                    self.ur1_pub.publish(msg)  # Send the full trajectory in one message
+                    self.ur1_pub.publish(msg)            # Send the full trajectory in one message
 
                     # Wait for the entire trajectory to finish executing
                     time.sleep(len(points) * 0.2 + 2.0)
@@ -636,7 +685,7 @@ class DualMopControlSystem(Node):
         # Robot 1 MUST be at rest before Robot 2 is allowed to start
         print("Robot 1 action complete. Returning to REST position...")
         self.move_to_joints(self.rest_pose_r1, robot_id=1, duration=5.0)
-        self.verify_at_rest(robot_id=1)  # Block until rest is physically confirmed
+        self.verify_at_rest(robot_id=1)   # Block until rest is physically confirmed
 
     # ──────────────────────────────────────────────────────────────────
     # Robot 2 — Fixed Trajectory Execution
@@ -646,128 +695,160 @@ class DualMopControlSystem(Node):
         """
         Execute the full operational phase for Robot 2.
 
-        Robot 2 performs a pre-recorded scoop-and-dump task using hardcoded
-        joint-space waypoints.  The trajectory is sent as a single
-        FollowJointTrajectory action goal so the controller handles
-        smooth interpolation between waypoints.
+        The trajectory is split into two segments:
 
-        Flow
-        ----
-        1. Wait for the FollowJointTrajectory action server to become available.
-        2. Build a trajectory message from the ordered waypoint sequence,
-           converting degrees to radians and assigning absolute time stamps.
-        3. Send the goal and block until the action server reports completion.
-        4. Return Robot 2 to its rest position and block until confirmed.
+        Segment A — bulk interpolated trajectory (steps 1–7):
+            Sent as a single FollowJointTrajectory goal so the controller
+            produces smooth interpolated motion between waypoints.
+
+        Segment B — discrete verified moves (steps 8–12, scoop sequence):
+            Each waypoint is sent individually via move_to_joints_verified()
+            and the next step only starts once the robot is physically
+            confirmed at the current target.  This prevents the controller
+            from interpolating through the critical scoop motion.
+
+        Segment C — bulk interpolated trajectory (steps 13–17):
+            Dump and return sequence sent as a second smooth trajectory.
         """
         print("\n--- STARTING PHASE FOR ROBOT 2 (FIXED TRAJECTORY) ---")
 
-        # Block until the ur_2_controller action server is online
         self.get_logger().info("Waiting for ur_2_controller action server...")
         self.ur2_action_client.wait_for_server()
 
-        # Shorthand alias to keep the sequence definition readable
-        t = self.ur2_fixed_trajectory
+        t = self.ur2_fixed_trajectory   # Shorthand alias
 
-        # Ordered sequence of (label, joint_angles_deg) pairs.
-        # The order defines the physical motion — do not reorder without
-        # verifying collision-free paths on the real robot.
-        sequence = [
-            ('home_rest', t['home_rest']),  # 1. Move to safe home position
-            ('home_rest_safe', t['home_rest_safe']),  # 2. Move to safe home position
-            ('work_safe', t['work_safe']),  # 3. Hover above the table surface
-            ('work_point', t['work_point']),  # 4. Lower end-effector to table
-            ('motion_pt1', t['motion_pt1']),  # 5. Sweep right to gather beads
-            ('motion_pt2', t['motion_pt2']),  # 6. Sweep left to gather beads
-            ('hover_over_box', t['hover_over_box']),  # 7. Hover over collection box
-            ('hover_over_box_2', t['hover_over_box_2']),  # 8. Hover over box just before scoop
-            ('motion_pt6', t['motion_pt6']),  # 9. Begin scoop approach
-            ('scoop', t['scoop']),  # 10. Scoop beads into end-effector
-            ('scoop_done_safe', t['scoop_done_safe']),  # 11. Safe hover after scoop
-            ('home_rest_safe', t['home_rest_safe']),  # 12. Return to safe home position after scoop
-
-            ('dump_pre_table', t['dump_pre_table']),  # 13. Hover above table ready to dump
-            ('dumpping_balls', t['dumpping_balls']),  # 14. Dump beads over table
-            ('dump_done', t['dump_done']),  # 15. Safe hover after dump
-            ('home_rest_safe', t['home_rest_safe']),  # 16. Return to safe home position after dump
-            ('home_rest', t['home_rest']),  # 17. Return to safe home position
+        # ── SEGMENT A: Smooth bulk trajectory — approach & sweep ──────
+        # Steps 1–7: home → table sweep → hover over box
+        segment_a = [
+            ('home_rest',       t['home_rest']),        # 1. Move to safe home position
+            ('home_rest_safe',  t['home_rest_safe']),   # 2. Secondary safe position
+            ('work_safe',       t['work_safe']),        # 3. Hover above table surface
+            ('work_point',      t['work_point']),       # 4. Lower end-effector to table
+            ('motion_pt1',      t['motion_pt1']),       # 5. Sweep right to gather beads
+            ('motion_pt2',      t['motion_pt2']),       # 6. Sweep left to gather beads
+            ('hover_over_box',  t['hover_over_box']),   # 7. Hover over collection box
         ]
 
-        # Absolute time stamps (seconds from trajectory start) for each waypoint.
-        # 5-second spacing gives the controller sufficient time between poses.
-        # time_steps = [5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0]
-        time_steps = [(i + 1) * 5.0 for i in range(len(sequence))]  # [5.0, 10.0, ..., 80.0]
+        # print("--- Segment A: Executing approach & sweep trajectory ---")
+        # if not self._send_bulk_trajectory(segment_a, time_step=3.0):
+        #     return   # Abort if the trajectory was rejected
 
-        # Create the FollowJointTrajectory goal message
-        goal_msg = FollowJointTrajectory.Goal()
-        goal_msg.trajectory.joint_names = self.ur2_joints  # Tell controller which joints to move
+        # ── SEGMENT B: Discrete verified moves — scoop sequence ───────
+        # Steps 8–12: each move is confirmed before the next begins.
+        # This prevents interpolation through the scoop, which could
+        # collide with the box or spill the beads.
+        segment_b = [
+            ('hover_over_box_2', t['hover_over_box_2'], 5.0),  # 8.  Final approach to box
+            ('scooping_motion_1',       t['scooping_motion_1'],       7.0),  # 9.  Begin scoop approach
+            ('scooping_motion_2',       t['scooping_motion_2'],       7.0),
+            ('scooping_motion_3',       t['scooping_motion_3'],       7.0),
+            ('scoop',            t['scoop'],             3.0),  # 10. Scoop beads
+            ('scoop_done_safe',  t['scoop_done_safe'],   5.0),  # 11. Safe lift after scoop
+            ('home_rest_safe',   t['home_rest_safe'],    5.0),  # 12. Clear of box with beads
+        ]
 
-        # Populate trajectory points by pairing each waypoint with its time stamp
-        for (label, deg), t_sec in zip(sequence, time_steps):
-            pt = JointTrajectoryPoint()
-            pt.positions = self.deg_to_rad(deg)  # Convert degrees → radians for the controller
+        print("--- Segment B: Executing discrete scoop sequence ---")
+        for label, deg, dur in segment_b:
+            joint_goal = self.deg_to_rad(deg)
+            print(f"  [DISCRETE] Moving to '{label}'...")
+            success = self.move_to_joints_verified(
+                joint_goal, robot_id=2, duration=dur,
+                tolerance=0.02,          # tighter than default 0.05 for scoop accuracy
+                timeout=dur + 10.0)
+            if not success:
+                print(f"  [ABORT] Could not confirm '{label}'. Aborting Robot 2 phase.")
+                # Attempt to return to a safe position before exiting
+                self.move_to_joints(self.deg_to_rad(t['home_rest_safe']), robot_id=2, duration=6.0)
+                return
+            print(f"  [OK] '{label}' confirmed.")
 
-            # Build a BuiltinDuration from the float time stamp
-            d = BuiltinDuration()
-            d.sec = int(t_sec)  # Whole seconds
-            d.nanosec = int((t_sec - int(t_sec)) * 1e9)  # Fractional seconds as nanoseconds
-            pt.time_from_start = d
+        # ── SEGMENT C: Smooth bulk trajectory — dump & return ─────────
+        # Steps 13–17: carry beads to table, dump and return home
+        segment_c = [
+            ('dump_pre_table',  t['dump_pre_table']),   # 13. Hover above table ready to dump
+            ('dumpping_balls',  t['dumpping_balls']),   # 14. Tip and dump beads onto table
+            ('dump_done',       t['dump_done']),        # 15. Safe hover after dump
+            ('home_rest_safe',  t['home_rest_safe']),   # 16. Secondary safe position
+            ('home_rest',       t['home_rest']),        # 17. Return to safe home position
+        ]
 
-            goal_msg.trajectory.points.append(pt)
-            print(f"  Waypoint '{label}' @ t={t_sec}s")  # Progress feedback
+        print("--- Segment C: Executing dump & return trajectory ---")
+        if not self._send_bulk_trajectory(segment_c, time_step=5.0):
+            return   # Abort if the trajectory was rejected
 
-        print("Sending fixed trajectory to Robot 2...")
-
-        # Send the goal asynchronously — returns a future for the goal handle
-        send_future = self.ur2_action_client.send_goal_async(goal_msg)
-
-        # Block (spin-wait) until the action server accepts or rejects the goal
-        while not send_future.done():
-            time.sleep(0.01)  # 10 ms polling interval
-
-        goal_handle = send_future.result()
-
-        if not goal_handle.accepted:
-            # Goal was rejected — log error and abort without crashing
-            self.get_logger().error("Robot 2 trajectory REJECTED by controller!")
-            return
-
-        self.get_logger().info("Robot 2 trajectory accepted — executing...")
-
-        # Request the final result asynchronously and register our callback
-        result_future = goal_handle.get_result_async()
-        result_future.add_done_callback(self._ur2_result_callback)
-
-        # Block the main thread here until _ur2_result_callback sets the event
-        self.ur2_done_event.wait()
-        self.ur2_done_event.clear()  # Reset the event for potential future use
-
-        # Return Robot 2 to rest position after the task is complete
+        # Return Robot 2 to rest position after the full task is complete
         print("Robot 2 trajectory complete. Returning to REST position...")
         self.move_to_joints(self.rest_pose_r2, robot_id=2, duration=5.0)
-        self.verify_at_rest(robot_id=2)  # Block until rest is physically confirmed
+        self.verify_at_rest(robot_id=2)   # Block until rest is physically confirmed
 
-    def _ur2_result_callback(self, future):
+    def _send_bulk_trajectory(self, sequence, time_step=5.0):
         """
-        Called by the ROS 2 action client when Robot 2's trajectory
-        execution finishes (success or failure).
-
-        Logs the MoveIt error code and unblocks ``run_robot2_phase``
-        by setting the ``ur2_done_event`` threading event.
+        Build and send a FollowJointTrajectory action goal from an ordered
+        list of (label, joint_angles_deg) waypoints, spaced time_step
+        seconds apart. Blocks until the action server reports completion.
 
         Parameters
         ----------
-        future : rclpy.task.Future
-            The completed future wrapping the FollowJointTrajectory result.
+        sequence : list[tuple[str, list[float]]]
+            Ordered list of (label, joint_angles_in_degrees) pairs.
+        time_step : float
+            Time spacing in seconds between consecutive waypoints.
+
+        Returns
+        -------
+        bool
+            True if the trajectory completed successfully, False otherwise.
         """
-        result = future.result().result  # Unwrap the action result object
+        goal_msg = FollowJointTrajectory.Goal()
+        goal_msg.trajectory.joint_names = self.ur2_joints
 
-        # Log the completion status for operator visibility
-        self.get_logger().info(
-            f"Robot 2 motion finished — error code: {result.error_code}")
+        for i, entry in enumerate(sequence):
+            # Guard: bulk trajectory only accepts (label, deg) 2-tuples
+            if len(entry) != 2:
+                raise ValueError(
+                    f"_send_bulk_trajectory expects (label, deg) pairs — "
+                    f"got {len(entry)}-tuple at index {i}. "
+                    f"Did you accidentally pass a Segment B list?"
+                )
+            label, deg = entry
+            t_sec = (i + 1) * time_step   # Absolute time stamp for this waypoint
 
-        # Signal run_robot2_phase that it can continue past the wait() call
-        self.ur2_done_event.set()
+            pt = JointTrajectoryPoint()
+            pt.positions = self.deg_to_rad(deg)   # Convert degrees → radians
 
+            d = BuiltinDuration()
+            d.sec     = int(t_sec)
+            d.nanosec = int((t_sec - int(t_sec)) * 1e9)
+            pt.time_from_start = d
+
+            goal_msg.trajectory.points.append(pt)
+            print(f"  Waypoint '{label}' @ t={t_sec}s")
+
+        print(f"Sending {len(sequence)}-point bulk trajectory to Robot 2...")
+        send_future = self.ur2_action_client.send_goal_async(goal_msg)
+
+        # Block until the server accepts or rejects the goal
+        while not send_future.done():
+            time.sleep(0.01)
+
+        goal_handle = send_future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error("Bulk trajectory REJECTED by controller!")
+            return False
+
+        self.get_logger().info("Bulk trajectory accepted — executing...")
+
+        # Create a fresh event for THIS trajectory call — avoids cross-contamination
+        # between Segment A and Segment C if callbacks arrive out of order
+        done_event = threading.Event()   # LOCAL event instead of self.ur2_done_event
+
+        result_future = goal_handle.get_result_async()
+        result_future.add_done_callback(
+            lambda fut: done_event.set()   # Set the LOCAL event on completion
+        )
+
+        done_event.wait()   # Block until THIS trajectory finishes
+        return True
 
 # ──────────────────────────────────────────────────────────────────────
 # Entry Point
@@ -805,12 +886,12 @@ def main():
 
     # ── STEP 1: Robot 1 mopping phase ─────────────────────────────────
     # Blocks until Robot 1 is confirmed back at its rest position
-    node.run_robot1_phase()
+    # node.run_robot1_phase()
 
     # ── STEP 2: Safety cooldown ────────────────────────────────────────
     # Gives the hardware time to settle and ensures no residual motion
     print("Robot 1 confirmed at rest. Cooling down 6 seconds before Robot 2...")
-    time.sleep(6.0)
+    # time.sleep(6.0)
 
     # ── STEP 3: Robot 2 scoop-and-dump phase ──────────────────────────
     # Blocks until Robot 2 is confirmed back at its rest position
