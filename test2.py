@@ -4,8 +4,8 @@ import pandas as pd
 
 def resample_trajectory(iter):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    input_csv = os.path.join(script_dir, "dmp_trajectory_feedback.csv")
-    output_csv = os.path.join(script_dir, "data", 'motion_safe.csv')
+    input_csv = os.path.join(script_dir, "dmp_trajectory_feedback-sinusoid-x-run-7.csv")
+    output_csv = os.path.join(script_dir, "data", f'motion_safe_{iter}.csv')
 
     # 1. Read Original Data
     if not os.path.exists(input_csv):
@@ -94,4 +94,4 @@ def resample_trajectory(iter):
     print(f"Saved trajectory comparison plot to: {output_plot}")
 
 if __name__ == '__main__':
-    resample_trajectory("100")
+    resample_trajectory("400")

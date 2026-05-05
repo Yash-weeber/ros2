@@ -19,6 +19,7 @@ ROS 2 topics / services used
 - /ur_2_controller/follow_joint_trajectory         (UR2 action client)
 """
 
+from random import choice
 import sys  # Standard library — sys.exit if needed
 import rclpy  # ROS 2 Python client library
 from rclpy.node import Node  # Base class for all ROS 2 nodes
@@ -167,8 +168,13 @@ class DualMopControlSystem(Node):
         }
 
         # ── Constant Z heights used for IK targets ─────────────────────
-        self.ur1_const_z = 0.762  # Robot 1 mop tip height above floor (metres)
-        self.ur2_const_z = 1.0  # Robot 2 tool height above floor (metres)
+        self.ur1_const_z = 0.745  # nominal work Z
+        self.ur2_const_z = 1.0
+
+        # Z safety guard for Robot 1
+        self.ur1_z_min = 0.745          # hard lower bound (never solve below this)
+        self.ur1_z_bias = 0.006         # global upward bias to avoid table contact
+        self.ur1_entry_lift = 0.030     # safe approach height over first XY point
 
         # ── Live joint state cache (populated by joint_cb) ─────────────
         self.current_joints_1 = None  # Latest joint positions for Robot 1
@@ -182,6 +188,34 @@ class DualMopControlSystem(Node):
     # Helper Methods
     # ──────────────────────────────────────────────────────────────────
 
+    def _safe_z_r1(self, z):
+        """
+        Apply Robot 1 Z safety policy:
+        - add upward bias
+        - clamp to minimum allowed Z
+        """
+        return max(z + self.ur1_z_bias, self.ur1_z_min)
+
+    def get_ik_with_z_guard(self, x, y, z_base, seed, robot_id=1, max_extra_lift=0.030, step=0.005):
+        """
+        Try IK at guarded Z, then progressively higher Z if needed.
+        Prevents low-Z penetration and improves IK robustness near table.
+        """
+        if robot_id != 1:
+            return self.get_ik(x, y, z_base, seed, robot_id=robot_id)
+
+        z0 = self._safe_z_r1(z_base)
+        lifts = int(max_extra_lift / step)
+
+        for i in range(lifts + 1):
+            z_try = z0 + i * step
+            sol = self.get_ik(x, y, z_try, seed, robot_id=1)
+            if sol is not None:
+                return sol, z_try
+
+        return None, None
+    
+    
     def deg_to_rad(self, degrees_list):
         """
         Convert a list of joint angles from degrees to radians.
@@ -377,7 +411,7 @@ class DualMopControlSystem(Node):
               f"{max_attempts} attempts. Aborting phase.")
         return False  # Caller should handle this failure
 
-    def move_to_joints(self, joint_goal, robot_id=1, duration=3.0):
+    def move_to_joints(self, joint_goal, robot_id=1, duration=0.1):
         """
         Publish a single-point JointTrajectory command to move a robot
         to a target joint configuration.
@@ -463,6 +497,44 @@ class DualMopControlSystem(Node):
         print(f"  [ERROR] Failed to confirm pose after {max_attempts} attempts.")
         return False
 
+    def _wrap_to_nearest(self, target, reference):
+        """
+        Wrap each target joint angle by ±2π so it is closest to reference.
+        Prevents sudden 360° flips on continuous joints (e.g., wrist_3).
+        """
+        out = []
+        for t, r in zip(target, reference):
+            k = round((r - t) / (2.0 * math.pi))
+            out.append(t + 2.0 * math.pi * k)
+        return out
+
+    def _estimate_duration(self, q_from, q_to, max_speed=0.35, min_dt=0.8):
+        """
+        Duration based on largest joint delta and speed limit (rad/s).
+        """
+        max_delta = max(abs(a - b) for a, b in zip(q_from, q_to))
+        return max(min_dt, max_delta / max_speed)
+
+    def _retime_joint_path(self, path, q_start, max_speed=0.35, min_dt=0.10):
+        """
+        Build JointTrajectoryPoint list with adaptive timing.
+        """
+        timed_points = []
+        prev = q_start
+        t_acc = 0.0
+
+        for q in path:
+            dt = self._estimate_duration(prev, q, max_speed=max_speed, min_dt=min_dt)
+            t_acc += dt
+            timed_points.append(
+                JointTrajectoryPoint(
+                    positions=q,
+                    time_from_start=Duration(seconds=t_acc).to_msg()
+                )
+            )
+            prev = q
+
+        return timed_points
     # ──────────────────────────────────────────────────────────────────
     # Robot 1 — IK-based Motion
     # ──────────────────────────────────────────────────────────────────
@@ -525,7 +597,13 @@ class DualMopControlSystem(Node):
         target.header.frame_id = "world"  # All targets are expressed in the world frame
         target.pose.position.x = x
         target.pose.position.y = y
+
+        # Enforce Robot 1 minimum Z (hard clamp)
+        if robot_id == 1:
+            z = self._safe_z_r1(z)
         target.pose.position.z = z
+
+        # Target orientation: 70° → radians
         angle = math.radians(70)  # 70° → radians
         # target.pose.orientation.x = math.sin(angle / 2)   # ≈ 0.5736
         # target.pose.orientation.y = 0.0
@@ -606,7 +684,8 @@ class DualMopControlSystem(Node):
 
         # ── Mode selection ─────────────────────────────────────────────
         print("1: Manual X/Y  |  2: CSV Sequence")
-        choice = input("Selection for Robot 1: ").strip()
+        # choice = input("Selection for Robot 1: ").strip()
+        choice = '2'  # Default to CSV mode for testing — change to input() for manual selection
 
         if choice == '1':
             # ── Interactive mode ───────────────────────────────────────
@@ -636,48 +715,73 @@ class DualMopControlSystem(Node):
                     print("Invalid input — enter two numbers.")
 
         elif choice == '2':
-            # ── CSV trajectory mode ────────────────────────────────────
             csv_path = '/mnt/sdc/GitHub/ros2/data/motion_safe.csv'
 
             if not os.path.exists(csv_path):
                 print(f"Error: CSV not found at {csv_path}")
             else:
-                points    = []                           # Accumulates valid IK solutions
-                last_seed = self.current_joints_1        # Seed first IK with current joints
+                rows = list(csv.DictReader(open(csv_path, 'r')))
+                if not rows:
+                    print("CSV has no waypoints.")
+                    return
 
+                points = []
+                last_seed = self.current_joints_1
                 print("Baking trajectory for Robot 1...")
 
-                with open(csv_path, 'r') as f:
-                    for row in csv.DictReader(f):        # Iterate over each CSV row
-                        sol = self.get_ik(
-                            float(row['x']),             # Target X from CSV
-                            float(row['y']),             # Target Y from CSV
-                            self.ur1_const_z,            # Constant mopping height
-                            last_seed,                   # Warm-start seed from previous solution
-                            robot_id=1)
+                # Safe entry to first XY at lifted Z
+                x0 = float(rows[0]['x'])
+                y0 = float(rows[0]['y'])
+                entry_sol, entry_z = self.get_ik_with_z_guard(
+                    x0, y0, self.ur1_const_z + self.ur1_entry_lift, last_seed, robot_id=1
+                )
+                if entry_sol is None:
+                    print("Failed safe entry IK for first waypoint.")
+                    return
 
-                        if sol:
-                            points.append(sol)           # Store valid solution
-                            last_seed = sol              # Use this solution as seed for next point
-                        # Rows with no IK solution are silently skipped
+                if not self.move_to_joints_verified(entry_sol, robot_id=1, duration=3.0, tolerance=0.02, timeout=10.0):
+                    print("Failed to reach safe entry pose.")
+                    return
+                last_seed = entry_sol
+
+                # Bake work path with Z guard (never below z_min)
+                for row in rows:
+                    x = float(row['x'])
+                    y = float(row['y'])
+                    sol, z_used = self.get_ik_with_z_guard(
+                        x, y, self.ur1_const_z, last_seed, robot_id=1
+                    )
+                    if sol:
+                        points.append(sol)
+                        last_seed = sol
 
                 if points:
-                    print(f"Executing {len(points)} waypoints...")
+                    # continuity + adaptive timing (existing logic)
+                    start_q = self.current_joints_1
+                    continuous_points = []
+                    ref = start_q
+                    for p in points:
+                        p2 = self._wrap_to_nearest(p, ref)
+                        continuous_points.append(p2)
+                        ref = p2
 
-                    # Build a multi-point trajectory message for smooth execution
-                    msg = JointTrajectory()
-                    msg.joint_names = self.ur1_joints
+                    first = continuous_points[0]
+                    bridge_dt = self._estimate_duration(start_q, first, max_speed=0.25, min_dt=2.0)
+                    ok = self.move_to_joints_verified(
+                        first, robot_id=1, duration=bridge_dt, tolerance=0.02, timeout=bridge_dt + 8.0
+                    )
+                    if not ok:
+                        print("Failed to reach first IK point safely. Aborting.")
+                        return
 
-                    for i, p in enumerate(points):
-                        # Space waypoints 0.2 seconds apart
-                        msg.points.append(JointTrajectoryPoint(
-                            positions=p,
-                            time_from_start=Duration(seconds=(i + 1) * 0.2).to_msg()))
-
-                    self.ur1_pub.publish(msg)            # Send the full trajectory in one message
-
-                    # Wait for the entire trajectory to finish executing
-                    time.sleep(len(points) * 0.2 + 2.0)
+                    rest_path = continuous_points[1:]
+                    if rest_path:
+                        msg = JointTrajectory()
+                        msg.joint_names = self.ur1_joints
+                        msg.points = self._retime_joint_path(rest_path, q_start=first, max_speed=0.30, min_dt=0.12)
+                        self.ur1_pub.publish(msg)
+                        total_time = msg.points[-1].time_from_start.sec + msg.points[-1].time_from_start.nanosec / 1e9
+                        time.sleep(total_time + 0.5)
                 else:
                     print("No valid IK solutions found.")
 
@@ -729,9 +833,9 @@ class DualMopControlSystem(Node):
             ('hover_over_box',  t['hover_over_box']),   # 7. Hover over collection box
         ]
 
-        # print("--- Segment A: Executing approach & sweep trajectory ---")
-        # if not self._send_bulk_trajectory(segment_a, time_step=3.0):
-        #     return   # Abort if the trajectory was rejected
+        print("--- Segment A: Executing approach & sweep trajectory ---")
+        if not self._send_bulk_trajectory(segment_a, time_step=3.0):
+            return   # Abort if the trajectory was rejected
 
         # ── SEGMENT B: Discrete verified moves — scoop sequence ───────
         # Steps 8–12: each move is confirmed before the next begins.
@@ -886,18 +990,18 @@ def main():
 
     # ── STEP 1: Robot 1 mopping phase ─────────────────────────────────
     # Blocks until Robot 1 is confirmed back at its rest position
-    # node.run_robot1_phase()
+    node.run_robot1_phase()
 
-    # ── STEP 2: Safety cooldown ────────────────────────────────────────
-    # Gives the hardware time to settle and ensures no residual motion
-    print("Robot 1 confirmed at rest. Cooling down 6 seconds before Robot 2...")
+    # # ── STEP 2: Safety cooldown ────────────────────────────────────────
+    # # Gives the hardware time to settle and ensures no residual motion
+    # print("Robot 1 confirmed at rest. Cooling down 6 seconds before Robot 2...")
     # time.sleep(6.0)
 
     # ── STEP 3: Robot 2 scoop-and-dump phase ──────────────────────────
     # Blocks until Robot 2 is confirmed back at its rest position
-    node.run_robot2_phase()
+    # node.run_robot2_phase()
 
-    print("\nRelay sequence complete. Both robots at rest.")
+    # print("\nRelay sequence complete. Both robots at rest.")
 
     rclpy.shutdown()  # Signal ROS 2 to stop all nodes and executors
     spin_thread.join()  # Wait for the background spin thread to exit cleanly
